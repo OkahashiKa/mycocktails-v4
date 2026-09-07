@@ -593,4 +593,379 @@ export const cocktails: Cocktail[] = [
     ],
     sourceUrl: "https://ja.wikipedia.org/wiki/シャンギロンゴ",
   },
+  // --- コンテンツ拡充（2 回目、2026-09-07）。各件の sourceUrl の記事（日本語版優先、無ければ英語版）を
+  // MediaWiki API で取得し、レシピ欄から書いた。砂糖・シュガーシロップは gum-syrup に対応させた。 ---
+  {
+    id: "boston-cooler",
+    name: "ボストン・クーラー",
+    nameEn: "Boston Cooler",
+    description:
+      "ラムをベースとする、ボストンの名を冠したシティカクテル。「クーラー」は蒸留酒に柑橘系のジュースを加えて炭酸飲料で割ったロングカクテルのスタイルで、ボストン・クーラーはその代表格。ジンジャーエールをソーダに変えるとラム・フィズになる。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "ジンジャエール以外の材料をシェイクする",
+      "グラスに注ぎ、冷やしたジンジャエールで満たして軽く混ぜる",
+    ],
+    recipe: [
+      { materialId: "rum", amount: "45ml" },
+      { materialId: "lemon-juice", amount: "20ml" },
+      { materialId: "gum-syrup", amount: "1tsp" },
+      { materialId: "ginger-ale", amount: "適量" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ボストン・クーラー",
+  },
+  {
+    id: "rum-collins",
+    name: "ラム・コリンズ",
+    nameEn: "Rum Collins",
+    description:
+      "トム・コリンズのジンをラムに替えたバリエーション。ダーク・ラムを用いたものをラム・コリンズ、ホワイト・ラムを用いたものをペドロ・コリンズと呼び分けることもある。映画『007 サンダーボール作戦』でジェームズ・ボンドが劇中で飲んだ。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "ラム、レモンジュース、シロップをシェイクし、コリンズグラスに注ぐ",
+      "ソーダを加えて軽く混ぜる",
+      "好みでレモンスライスやチェリーを飾る",
+    ],
+    recipe: [
+      { materialId: "rum", amount: "45ml" },
+      { materialId: "lemon-juice", amount: "20ml" },
+      { materialId: "gum-syrup", amount: "1〜2tsp" },
+      { materialId: "soda", amount: "適量" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ラム・コリンズ",
+  },
+  {
+    id: "sol-cubano",
+    name: "ソル・クバーノ",
+    nameEn: "Sol Cubano",
+    description:
+      "ラムをベースとする冷たいロングドリンク。名前は「キューバの太陽」の意。神戸「サヴォイ北野坂」の木村義久が考案し、1980 年の第 1 回サントリー・トロピカルカクテル・コンテストでグランプリを受賞した。ビルドで手軽に作れることもあり全国のバーへ広まった。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたタンブラーにラムを注ぎ、グレープフルーツジュースを注いでステアする",
+      "トニックウォーターでグラスを満たす",
+    ],
+    recipe: [
+      { materialId: "rum", amount: "45ml" },
+      { materialId: "grapefruit-juice", amount: "45ml" },
+      { materialId: "tonic-water", amount: "適量" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ソル・クバーノ",
+  },
+  {
+    id: "corkscrew",
+    name: "コルクスクリュー",
+    nameEn: "Corkscrew",
+    description:
+      "ラムをベースとするショートドリンク。カクテル名はコルク栓抜きを意味する英語。ホワイト・ラム、ピーチ・リキュール、ドライ・ベルモットを 2:1:1 でシェイクし、レモンの果皮で香りを付ける。",
+    difficulty: "normal",
+    alcoholLevel: "high",
+    steps: [
+      "ラム、ピーチリキュール、ヴェルモットをシェイクしてカクテルグラスに注ぐ",
+      "レモンの果皮から精油を絞りかける",
+    ],
+    recipe: [
+      { materialId: "rum", amount: "2/4" },
+      { materialId: "peach", amount: "1/4" },
+      { materialId: "vermouth", amount: "1/4" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/コルクスクリュー_(カクテル)",
+  },
+  {
+    id: "vodka-collins",
+    name: "ウォッカ・コリンズ",
+    nameEn: "Vodka Collins",
+    description:
+      "トム・コリンズのジンをウォッカに置き換えた冷たいロングドリンク。別名ジョー・コリンズで、「ジョー」はソビエト連邦首相ヨシフ・スターリンに由来する。禁酒法撤廃以降のニューヨークで提供されていたことは確かとされるが、由来はよく分かっていない。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "シェイカーにウォッカ、レモンジュース、ガムシロップを入れてシェイクする",
+      "氷を入れたロンググラスまたはコリンズグラスに注ぎ、ソーダを加えて軽くステアする",
+      "オレンジスライスやチェリーを飾ることもある",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "30ml" },
+      { materialId: "lemon-juice", amount: "10ml" },
+      { materialId: "gum-syrup", amount: "10ml" },
+      { materialId: "soda", amount: "適量" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ウォッカ・コリンズ",
+  },
+  {
+    id: "broadway-thirst",
+    name: "ブロードウェイ・サースト",
+    nameEn: "Broadway Thirst",
+    description:
+      "テキーラベースのショートドリンク。作者はイギリス・サヴォイ・ホテルのハリー・クラドックで、イギリス生まれのカクテル。名前のブロードウェイがニューヨークを指すのか、そもそも地名なのかは不明。テキーラ、オレンジジュース、レモンジュースを 2:1:1 で用いる。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "テキーラ、オレンジジュース、レモンジュース、シロップをシェイクする",
+      "カクテルグラスに注ぐ",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "2/4" },
+      { materialId: "orange-juice", amount: "1/4" },
+      { materialId: "lemon-juice", amount: "1/4" },
+      { materialId: "gum-syrup", amount: "1tsp" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ブロードウェイ・サースト",
+  },
+  {
+    id: "conchita",
+    name: "コンチータ",
+    nameEn: "Conchita",
+    description:
+      "テキーラをベースとするショートドリンク。テキーラとグレープフルーツジュースを 3:2 でシェイクし、レモンジュースを少量加える。レモンジュースは酸味を強くするために入れるだけなので、その分量は飲む人の好みによる。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "テキーラ、グレープフルーツジュース、レモンジュースをシェイクする",
+      "カクテルグラスに注ぐ",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "3/5" },
+      { materialId: "grapefruit-juice", amount: "2/5" },
+      { materialId: "lemon-juice", amount: "2dash" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/コンチータ",
+  },
+  {
+    id: "ambassador",
+    name: "アンバサダー",
+    nameEn: "Ambassador",
+    description:
+      "テキーラベースのカクテル。テキーラ・サンライズのグレナデン・シロップをシュガーシロップに替えたもの。テキーラとオレンジジュースをステアしたあと、グラスの縁から静かにシロップを注いで底に沈める。スライスオレンジを飾ることもある。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "タンブラーに氷を入れる",
+      "テキーラとオレンジジュースを注ぎ、軽くステアする",
+      "グラスの縁から静かにガムシロップを注ぎ、底に沈める",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "45ml" },
+      { materialId: "orange-juice", amount: "適量" },
+      { materialId: "gum-syrup", amount: "1tsp" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/アンバサダー_(カクテル)",
+  },
+  {
+    id: "pompier",
+    name: "ポンピエ",
+    nameEn: "Pompier",
+    description:
+      "ベルモットをベースにクレーム・ド・カシスを加え、ソーダで割ったカクテル。ポンピエはフランス語で消防士のことで、フランスで大衆的に飲まれている。英語圏ではベルモット・カシスとも呼ばれる。",
+    difficulty: "easy",
+    alcoholLevel: "low",
+    steps: [
+      "大きめのシャンパングラスにヴェルモットとカシスを注ぐ",
+      "ソーダで満たし、軽くステアする",
+    ],
+    recipe: [
+      { materialId: "vermouth", amount: "60ml" },
+      { materialId: "cassis", amount: "15ml" },
+      { materialId: "soda", amount: "適量" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ポンピエ",
+  },
+  {
+    id: "southside",
+    name: "サウスサイド",
+    nameEn: "Southside",
+    description:
+      "ジンを用いた古典的なカクテルで、「ジンを使ったモヒート」とも言われる。発祥はシカゴのサウスサイド、禁酒法時代にサウスサイドを拠点としたギャング、ロングアイランドのクラブ、ニューヨークの 21 クラブなど諸説ある。国際バーテンダー協会の公認カクテル。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "氷とともに全ての材料をシェイクする",
+      "カクテルグラスに注ぐ",
+      "ミントをグラスに飾る",
+    ],
+    recipe: [
+      { materialId: "gin", amount: "60ml" },
+      { materialId: "lemon-juice", amount: "30ml" },
+      { materialId: "gum-syrup", amount: "15ml" },
+      { materialId: "mint", amount: "5〜6枚" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/サウスサイド_(カクテル)",
+  },
+  {
+    id: "john-collins",
+    name: "ジョン・コリンズ",
+    nameEn: "John Collins",
+    description:
+      "ジンまたはウイスキーとレモンジュース、ソーダで作るカクテル。ロンドン「リマーズ・コーナー」のボーイ長ジョン・コリンズが考案したとされ、当初はオランダ・ジンを用いた。のちにオールド・トム・ジンで作るものがトム・コリンズと呼ばれた。ジンベースは国際バーテンダー協会の公認カクテル。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "全ての材料をハイボールグラスに注ぎ、静かに混ぜる",
+      "レモンスライスとマラスキーノチェリーを飾る",
+    ],
+    recipe: [
+      { materialId: "gin", amount: "45ml" },
+      { materialId: "lemon-juice", amount: "30ml" },
+      { materialId: "gum-syrup", amount: "15ml" },
+      { materialId: "soda", amount: "60ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ジョン・コリンズ_(カクテル)",
+  },
+  {
+    id: "american-lemonade",
+    name: "アメリカン・レモネード",
+    nameEn: "American Lemonade",
+    description:
+      "赤ワインとレモンジュースを混ぜずに 2 層となるようフロートで作るカクテル。アルコール度数はかなり低い。次第に混ざり合う様子を眺めたり、ストローで下の層のレモネードだけ飲んだり、よく混ぜてから飲んだりと様々な楽しみ方ができる。",
+    difficulty: "normal",
+    alcoholLevel: "low",
+    steps: [
+      "タンブラーにレモンジュースとガムシロップを入れて混ぜる",
+      "氷を入れ、ミネラルウォーターで満たす",
+      "赤ワインを静かに注ぎ、フロートさせる",
+    ],
+    recipe: [
+      { materialId: "red-wine", amount: "30ml" },
+      { materialId: "lemon-juice", amount: "40ml" },
+      { materialId: "gum-syrup", amount: "3tsp" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/アメリカン・レモネード",
+  },
+  {
+    id: "el-diablo",
+    name: "エル・ディアブロ",
+    nameEn: "El Diablo",
+    description:
+      "テキーラ、クレーム・ド・カシス、ジンジャービアを使用するカクテル。名前はスペイン語で「悪魔」。1946 年にカリフォルニアのレストラン「トレーダーヴィックス」で考案され、当初は「メキシカン・エル・ディアブロ」の名でメニューに載った。日本ではジンジャービアをジンジャーエールで代替するレシピが広まっている。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "ジンジャエール以外の材料と氷をシェイクし、氷を入れたコリンズグラスに注ぐ",
+      "ジンジャエールでグラスを満たす",
+      "カットライムを飾る",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "適量" },
+      { materialId: "cassis", amount: "適量" },
+      { materialId: "lime-juice", amount: "適量" },
+      { materialId: "ginger-ale", amount: "適量" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/エル・ディアブロ",
+  },
+  {
+    id: "greyhound",
+    name: "グレイハウンド",
+    nameEn: "Greyhound",
+    description:
+      "グレープフルーツジュースとジンまたはウォッカを氷の上で混ぜたカクテル。1945 年のハーパーズ・マガジンに、バス会社グレイハウンドのターミナルにあったレストラン「ポスト・ハウス」で出されていたと記されている。第二次世界大戦後はウォッカで作るのが一般的になった。グラスの縁に塩を付けるとソルティ・ドッグ。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたグラスにウォッカとグレープフルーツジュースを注いで混ぜる",
+      "ライムまたはレモンの皮をひねって飾る",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "適量" },
+      { materialId: "grapefruit-juice", amount: "適量" },
+    ],
+    sourceUrl: "https://en.wikipedia.org/wiki/Greyhound_(cocktail)",
+  },
+  {
+    id: "batanga",
+    name: "バタンガ",
+    nameEn: "Batanga",
+    description:
+      "テキーラ、ライムジュース、コーラで作り、縁に塩を付けたグラスで出すカクテル。ラムをテキーラに替えたキューバ・リブレのようなもの。メキシコのテキーラ村にあるバー「ラ・カピージャ」の店主ドン・ハビエル・デルガドが 1961 年に考案したとされ、メキシコではかなり人気がある。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "グラスの縁に塩を付ける",
+      "氷を入れたグラスにテキーラとライムジュースを注ぎ、コーラで満たして混ぜる",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "適量" },
+      { materialId: "lime-juice", amount: "適量" },
+      { materialId: "cola", amount: "適量" },
+    ],
+    sourceUrl: "https://en.wikipedia.org/wiki/Batanga_(cocktail)",
+  },
+  {
+    id: "ranch-water",
+    name: "ランチ・ウォーター",
+    nameEn: "Ranch Water",
+    description:
+      "テキーラ、ライムジュース、炭酸入りミネラルウォーター「トポチコ」で作るのが典型的な、テキサス発祥のカクテル。1998 年にオースティンでレストランを開いたケビン・ウィリアムソンに帰する説が多い。缶入りのハードセルツァーとしても各社から売られている。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたグラスにテキーラとライムジュースを注ぐ",
+      "炭酸水で満たす",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "適量" },
+      { materialId: "lime-juice", amount: "適量" },
+      { materialId: "soda", amount: "適量" },
+    ],
+    sourceUrl: "https://en.wikipedia.org/wiki/Ranch_water",
+  },
+  {
+    id: "tequila-slammer",
+    name: "テキーラ・スラマー",
+    nameEn: "Tequila Slammer",
+    description:
+      "テキーラと強炭酸のレモンライム系ソーダまたはジンジャーエールで作り、ロックグラスで出すカクテル。メキシコでは「マペット」とも呼ぶ。手でグラスの口を押さえて台に叩きつけて混ぜ、泡立つうちに一気に飲む。1963 年の映画『アカプルコの海』でエルヴィス・プレスリーがその飲み方を披露した。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "ロックグラスにテキーラとジンジャエールを注ぐ。グラスの 5 分の 1 ほどは空けておく",
+      "手でグラスの口を押さえ、硬い台に叩きつけて混ぜる",
+      "泡が立ったらすぐに飲む",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "適量" },
+      { materialId: "ginger-ale", amount: "適量" },
+    ],
+    sourceUrl: "https://en.wikipedia.org/wiki/Tequila_slammer",
+  },
+  {
+    id: "vodka-soda",
+    name: "ウォッカ・ソーダ",
+    nameEn: "Vodka Soda",
+    description:
+      "ウォッカ、ソーダ、氷で作るハイボールの一種。レモンやライムを飾ることもある。ソーダとウォッカを 2:1 にするのが目安。主流の酒類の中ではカロリーが低く、健康志向の客が増えた 2010 年代後半にハードセルツァーとともに人気が高まった。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたグラスにウォッカを注ぎ、ソーダで満たす",
+      "好みでレモンまたはライムを飾る",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "1/3" },
+      { materialId: "soda", amount: "2/3" },
+    ],
+    sourceUrl: "https://en.wikipedia.org/wiki/Vodka_soda",
+  },
+  {
+    id: "caipiroska",
+    name: "カイピロスカ",
+    nameEn: "Caipiroska",
+    description:
+      "カイピリーニャのカシャッサをウォッカに替えたカクテル。カイピヴォッカ、カイピロッカとも呼ばれ、ブラジル、パラグアイ、ウルグアイ、アルゼンチンで人気がある。くし切りのライムと砂糖をグラスの中で潰し、ウォッカを注いでクラッシュアイスを加える。",
+    difficulty: "normal",
+    alcoholLevel: "high",
+    steps: [
+      "くし切りにしたライムの果汁をハイボールグラスに絞り入れ、ライム 1 切れとシロップを入れて軽く潰す",
+      "ウォッカを注ぎ、よく混ぜる",
+      "クラッシュアイスを加えて混ぜ、ライムを飾る",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "60ml" },
+      { materialId: "lime-juice", amount: "1/2個分" },
+      { materialId: "gum-syrup", amount: "2tsp" },
+    ],
+    sourceUrl: "https://en.wikipedia.org/wiki/Caipiroska",
+  },
 ];
