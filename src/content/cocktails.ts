@@ -332,63 +332,6 @@ export const cocktails: Cocktail[] = [
     sourceUrl: "https://ja.wikipedia.org/wiki/ジン・バック",
   },
   {
-    id: "orange-blossom",
-    name: "オレンジ・ブロッサム",
-    nameEn: "Orange Blossom",
-    description:
-      "ジンとオレンジジュースを使ったカクテル。ジン・オレンジとも呼ばれる。アメリカの禁酒法時代に、密造された粗悪なジンの臭いをごまかすためオレンジジュースを混ぜたのが始まりとされる。オレンジの花言葉にちなみ、結婚式の披露宴の食前酒としても飲まれる。",
-    difficulty: "normal",
-    alcoholLevel: "high",
-    steps: [
-      "全ての材料をシェイクし、カクテルグラスに注ぐ（タンブラーで混ぜてもよい）",
-      "好みでオレンジスライスを飾る",
-    ],
-    recipe: [
-      { materialId: "gin", amount: "40〜50ml" },
-      { materialId: "orange-juice", amount: "20〜30ml" },
-    ],
-    sourceUrl: "https://ja.wikipedia.org/wiki/オレンジ・ブロッサム",
-  },
-  {
-    id: "gibson",
-    name: "ギブソン",
-    nameEn: "Gibson",
-    description:
-      "ジンベースのカクテル。マティーニとほぼ同じレシピだが、マティーニがオリーブを添えるのに対し、ギブソンはカクテルオニオンを飾る。名前はアメリカのイラストレーター、チャールズ・ダナ・ギブソンに由来する説が有力。通常はシェイクで作るが、ステアで作る場合もある。",
-    difficulty: "normal",
-    alcoholLevel: "high",
-    steps: [
-      "ドライジンとドライヴェルモットをシェイクする",
-      "カクテルグラスに注ぐ",
-      "カクテルオニオンを飾る",
-    ],
-    recipe: [
-      { materialId: "gin", amount: "45ml" },
-      { materialId: "vermouth", amount: "15ml" },
-    ],
-    sourceUrl: "https://ja.wikipedia.org/wiki/ギブソン_(カクテル)",
-  },
-  {
-    id: "vodka-martini",
-    name: "ウォッカ・マティーニ",
-    nameEn: "Vodka Martini",
-    description:
-      "マティーニのジンをウォッカに替えたカクテル。ウォッカティーニ、カンガルーとも呼ばれる。映画 007 シリーズでジェームズ・ボンドが「ウォッカ・マティーニ、ステアではなくシェイクで」と注文する場面で知られる。",
-    difficulty: "normal",
-    alcoholLevel: "high",
-    steps: [
-      "ミキシンググラスにウォッカとドライヴェルモットを入れてステアする",
-      "カクテルグラスに注ぎ、レモンピールを絞りかける",
-      "オリーブを飾る",
-    ],
-    recipe: [
-      { materialId: "vodka", amount: "45ml" },
-      { materialId: "vermouth", amount: "15ml" },
-      { materialId: "olive", amount: "1個", optional: true },
-    ],
-    sourceUrl: "https://ja.wikipedia.org/wiki/ウォッカ・マティーニ",
-  },
-  {
     id: "salty-dog",
     name: "ソルティ・ドッグ",
     nameEn: "Salty Dog",
@@ -425,24 +368,6 @@ export const cocktails: Cocktail[] = [
     sourceUrl: "https://ja.wikipedia.org/wiki/ブルドッグ_(カクテル)",
   },
   {
-    id: "sledgehammer",
-    name: "スレッジハンマー",
-    nameEn: "Sledgehammer",
-    description:
-      "ウォッカにライムジュースを加えただけの、ショートドリンクに分類されるカクテル。名前は両手で振り下ろす大型ハンマーのことで、酒を飲み慣れていないとガツンとくる効きの強さから名付けられた。ギムレットのジンをウォッカに替えたウォッカ・ギムレットを、より強く辛口にしたもの。",
-    difficulty: "normal",
-    alcoholLevel: "high",
-    steps: [
-      "材料をシェイクする",
-      "カクテルグラスに注ぐ",
-    ],
-    recipe: [
-      { materialId: "vodka", amount: "50ml" },
-      { materialId: "lime-juice", amount: "10ml" },
-    ],
-    sourceUrl: "https://ja.wikipedia.org/wiki/スレッジハンマー_(カクテル)",
-  },
-  {
     id: "black-russian",
     name: "ブラック・ルシアン",
     nameEn: "Black Russian",
@@ -459,24 +384,6 @@ export const cocktails: Cocktail[] = [
       { materialId: "kahlua", amount: "20ml" },
     ],
     sourceUrl: "https://ja.wikipedia.org/wiki/ブラック・ルシアン",
-  },
-  {
-    id: "vodka-tonic",
-    name: "ウォッカ・トニック",
-    nameEn: "Vodka Tonic",
-    description:
-      "ウォッカとトニックウォーターで作るロングドリンク。ライムまたはレモンのスライスを添えることが多い。よく使われるレシピはウォッカとトニックウォーターを 1 対 1 で氷を入れたハイボールグラスに注ぎ、ライムを絞り入れるもの。イアン・フレミングの小説『ロシアから愛をこめて』にも登場する。",
-    difficulty: "easy",
-    alcoholLevel: "medium",
-    steps: [
-      "氷を入れたタンブラーにウォッカとトニックウォーターを注ぐ",
-      "好みでライムを絞り入れる",
-    ],
-    recipe: [
-      { materialId: "vodka", amount: "等量" },
-      { materialId: "tonic-water", amount: "等量" },
-    ],
-    sourceUrl: "https://en.wikipedia.org/wiki/Vodka_tonic",
   },
   {
     id: "cuba-libre",
@@ -575,22 +482,393 @@ export const cocktails: Cocktail[] = [
     ],
     sourceUrl: "https://ja.wikipedia.org/wiki/カリモーチョ",
   },
+  // 3 回目の拡充（2026-09-07）で足した 20 件。IBA 公式リストとサントリー「知っておきたいスタンダードカクテル」に
+  // 載るメジャーなカクテル。分量・手順は IBA レシピページ（あれば）か日本語版 Wikipedia（いずれも 2026-09-07 取得）。
+  // 砂糖はガムシロップ、ライムの実はライムジュース、ピーチシュナップスは peach、シトロンウォッカは vodka で置いた。
+  // 水・熱湯・氷・塩のスノースタイル・調味料は材料に入れず手順に書いた。
   {
-    id: "changuirongo",
-    name: "シャンギロンゴ",
-    nameEn: "Changuirongo",
+    id: "white-lady",
+    name: "ホワイト・レディ",
+    nameEn: "White Lady",
     description:
-      "テキーラをオレンジジュースで割った、1940 年代からメキシコで飲まれているカクテル。スクリュードライバーのバリエーションの一つと言える。ベースをジンに変えればオレンジ・ブロッサム、グレナデンシロップを加えればテキーラ・サンライズになる。",
+      "ジンをベースとするショートドリンク。1920 年代に誕生したとされ、パリのハリーズ・ニューヨーク・バーのハリー・マッケルホーンが 1925 年に創作した説や、ロンドンのサヴォイ・ホテルで生まれた説がある。ジンをブランデーに替えるとサイドカー、テキーラに替えるとマルガリータになる。アルコール度数は 29 度。",
+    difficulty: "normal",
+    alcoholLevel: "high",
+    steps: [
+      "全ての材料をシェイカーに入れ、氷と共によくシェイクする",
+      "冷やしたカクテルグラスに注ぐ",
+    ],
+    recipe: [
+      { materialId: "gin", amount: "40ml" },
+      { materialId: "triple-sec", amount: "30ml" },
+      { materialId: "lemon-juice", amount: "20ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ホワイト・レディ",
+  },
+  {
+    id: "margarita",
+    name: "マルガリータ",
+    nameEn: "Margarita",
+    description:
+      "テキーラをベースに、ホワイト・キュラソーとライムジュースをシェイクし、縁に塩をつけたグラスで飲むカクテル。1949 年にロサンゼルスのバーテンダー、ジャン・デュレッサーが亡き恋人マルガリータを偲んで名付けたとされる。アルコール度数は 20〜30 度。",
+    difficulty: "normal",
+    alcoholLevel: "high",
+    steps: [
+      "全ての材料をシェイカーに入れ、氷と共にシェイクする",
+      "冷やしたカクテルグラスに注ぐ",
+      "好みでグラスの縁の半分に塩をつける（スノースタイル）",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "50ml" },
+      { materialId: "triple-sec", amount: "20ml" },
+      { materialId: "lime-juice", amount: "15ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/マルガリータ",
+  },
+  {
+    id: "horses-neck",
+    name: "ホーセズ・ネック",
+    nameEn: "Horse's Neck",
+    description:
+      "コニャック（ブランデー）とジンジャーエールで作るロングドリンク。1 個分のレモンの皮を螺旋状に細長く剥いてグラスからはみ出すように飾るのが特徴で、この皮を馬の首に見立てて名付けられた。19 世紀末のレモンの皮入りジンジャーエールにアルコールを加えたのが起源とされる。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたハイボールグラスにブランデーとジンジャエールを注ぎ、静かに混ぜる",
+      "好みでアンゴスチュラビターズを加える",
+      "螺旋剥きにしたレモンの皮 1 個分を飾る",
+    ],
+    recipe: [
+      { materialId: "brandy", amount: "40ml" },
+      { materialId: "ginger-ale", amount: "120ml" },
+      { materialId: "angostura-bitters", amount: "1 dash", optional: true },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ホーセズ・ネック",
+  },
+  {
+    id: "mimosa",
+    name: "ミモザ",
+    nameEn: "Mimosa",
+    description:
+      "シャンパンをオレンジジュースで割ったカクテル。正式にはシャンパーニュ・ア・ロランジュと呼ばれ、黄色の花をつけるミモザと色合いが似ていることから名付けられた。氷を入れたタンブラーで作るとバックス・フィズになる。アルコール度数は 6〜8 度。",
     difficulty: "easy",
     alcoholLevel: "low",
     steps: [
-      "タンブラーに氷を入れる",
-      "テキーラとオレンジジュースを入れてステアする",
+      "フルート型のシャンパングラスにオレンジジュースを注ぐ",
+      "よく冷やしたスパークリングワインを静かに注ぎ、軽くステアする",
+      "好みでオレンジピールを飾る",
+    ],
+    recipe: [
+      { materialId: "orange-juice", amount: "75ml" },
+      { materialId: "sparkling-wine", amount: "75ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ミモザ_(カクテル)",
+  },
+  {
+    id: "kir-royal",
+    name: "キール・ロワイヤル",
+    nameEn: "Kir Royal",
+    description:
+      "キールの白ワインをシャンパンに替えたカクテル。名前は「王のキール」の意味で、第二次世界大戦後にウィーンの店のバーテンダー、フーベルト・ドヴォルシャックが創作したと言われる。シャンパン以外の辛口スパークリングワインで作ることもある。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "よく冷やしたフルート型のシャンパングラスにカシスリキュールを注ぐ",
+      "よく冷やしたスパークリングワインを注ぎ、ごく軽くステアする（氷は使わない）",
+    ],
+    recipe: [
+      { materialId: "cassis", amount: "15ml" },
+      { materialId: "sparkling-wine", amount: "135ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/キール・ロワイヤル",
+  },
+  {
+    id: "sex-on-the-beach",
+    name: "セックス・オン・ザ・ビーチ",
+    nameEn: "Sex on the Beach",
+    description:
+      "ウォッカにピーチリキュール、オレンジジュース、クランベリージュースを合わせたロングドリンク。トム・クルーズ主演の映画『カクテル』に登場して知られるようになった。1987 年にフロリダで誕生したとする説など、発祥には諸説がある。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷で満たしたハイボールグラスに全ての材料を注ぐ",
+      "好みでオレンジスライスを飾る",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "40ml" },
+      { materialId: "peach", amount: "20ml" },
+      { materialId: "orange-juice", amount: "40ml" },
+      { materialId: "cranberry-juice", amount: "40ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/セックス・オン・ザ・ビーチ",
+  },
+  {
+    id: "tequila-sunrise",
+    name: "テキーラ・サンライズ",
+    nameEn: "Tequila Sunrise",
+    description:
+      "日の出の情景をグラスの中で表したテキーラベースのロングドリンク。メキシコで誕生したが作者や年代は特定されていない。1972 年頃、ローリング・ストーンズのミック・ジャガーがメキシコ公演中に愛飲したことで世界的に知られるようになった。アルコール度数は 12〜14 度。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷で満たしたハイボールグラスにテキーラとオレンジジュースを注ぐ",
+      "グレナデンシロップを注いで日の出の色模様を作る。ステアはしない",
+      "好みでオレンジスライスまたはオレンジゼストを飾る",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "45ml" },
+      { materialId: "orange-juice", amount: "90ml" },
+      { materialId: "grenadine", amount: "15ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/テキーラ・サンライズ",
+  },
+  {
+    id: "bloody-mary",
+    name: "ブラッディ・マリー",
+    nameEn: "Bloody Mary",
+    description:
+      "ウォッカをトマトジュースで割った、トマト味のカクテル。1921 年にパリのハリーズ・ニューヨーク・バーのフェルナン・プティオが考案したとされる。名前は 16 世紀のイングランド女王メアリー 1 世の異名「血まみれメアリー」に由来すると言われる。アルコール度数は 12〜20 度。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "ミキシンググラスに氷とウォッカ、トマトジュース、レモンジュースを入れる",
+      "ウスターソースを 2 dash 加え、タバスコ・セロリソルト・コショウを好みの量で加えて静かに混ぜる",
+      "ロックグラスに注ぐ（氷入りならハイボールグラス）。好みでセロリやレモンを添える",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "45ml" },
+      { materialId: "tomato-juice", amount: "90ml" },
+      { materialId: "lemon-juice", amount: "15ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ブラッディ・マリー",
+  },
+  {
+    id: "matador",
+    name: "マタドール",
+    nameEn: "Matador",
+    description:
+      "テキーラにパイナップルジュースとライムジュースを合わせた、冷たいタイプのロングドリンク。名前は「闘牛士」、特にウシにとどめを刺す花形の闘牛士を指すが、命名の由来には定説がない。テキーラ、パイナップルジュース、ライムジュースを 2 対 3 対 1 で作るのが基本。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "テキーラ、パイナップルジュース、ライムジュースをシェイクする",
+      "氷を入れたオールド・ファッションド・グラスに注ぐ",
+      "好みでパイナップルを飾る",
     ],
     recipe: [
       { materialId: "tequila", amount: "30ml" },
-      { materialId: "orange-juice", amount: "適量" },
+      { materialId: "pineapple-juice", amount: "45ml" },
+      { materialId: "lime-juice", amount: "15ml" },
     ],
-    sourceUrl: "https://ja.wikipedia.org/wiki/シャンギロンゴ",
+    sourceUrl: "https://ja.wikipedia.org/wiki/マタドール_(カクテル)",
+  },
+  {
+    id: "mockingbird",
+    name: "モッキンバード",
+    nameEn: "Mockingbird",
+    description:
+      "テキーラをベースに、グリーンのミントリキュールとレモンジュースをシェイクした緑色のショートドリンク。名前は「物まね鳥」の意味で、メキシコなど北米大陸南部に生息するマネシツグミにちなむ。レモンジュースの代わりにライムジュースでもよい。アルコール度数は 17〜26 度。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "全ての材料をシェイカーでシェイクする",
+      "カクテルグラスに注ぐ",
+    ],
+    recipe: [
+      { materialId: "tequila", amount: "30ml" },
+      { materialId: "creme-de-menthe", amount: "15ml" },
+      { materialId: "lemon-juice", amount: "15ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/モッキンバード",
+  },
+  {
+    id: "alaska",
+    name: "アラスカ",
+    nameEn: "Alaska",
+    description:
+      "ドライジンとシャルトリューズ・ジョーヌをシェイクした、淡黄色のショートドリンク。1920 年代にサウスカロライナ州で修行中だったハリー・クラドックが考案した。アルコール度数が 35〜43 度と高いカクテルとして知られる。黄をシャルトリューズ・ヴェール（緑）に替えるとグリーン・アラスカになる。",
+    difficulty: "normal",
+    alcoholLevel: "high",
+    steps: [
+      "材料をシェイクし、カクテルグラスに注ぐ（ステアで作る場合もある）",
+    ],
+    recipe: [
+      { materialId: "gin", amount: "3/4" },
+      { materialId: "yellow-chartreuse", amount: "1/4" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/アラスカ_(カクテル)",
+  },
+  {
+    id: "shandy-gaff",
+    name: "シャンディ・ガフ",
+    nameEn: "Shandy Gaff",
+    description:
+      "ビールをジンジャーエールで割ったカクテル。ビール特有のホップの苦味をジンジャーエールが和らげ、生姜のピリッとした風味を添える。イギリスのパブで昔から飲まれており、単にシャンディとも呼ばれる。名前の由来は不明。",
+    difficulty: "easy",
+    alcoholLevel: "low",
+    steps: [
+      "よく冷やしたビールを先にタンブラーに注ぐ",
+      "よく冷やしたジンジャエールで満たし、軽くステアする",
+    ],
+    recipe: [
+      { materialId: "beer", amount: "1/2" },
+      { materialId: "ginger-ale", amount: "1/2" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/シャンディ・ガフ",
+  },
+  {
+    id: "hot-buttered-rum",
+    name: "ホット・バタード・ラム",
+    nameEn: "Hot Buttered Rum",
+    description:
+      "ラムをベースにバターを入れるホットドリンク。イギリスで古くから飲まれてきたカクテルで、温めた耐熱グラスに角砂糖、ラム、熱湯、バターの順に入れて混ぜる。好みで丁子を浮かべたり、シナモンスティックで混ぜて風味を変えることもある。アルコール度数は 14〜15 度。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "温めた耐熱グラスにガムシロップ（角砂糖 1 個の代わり）、ダークラム、熱湯（適量）、バターの順に入れる",
+      "混ぜて完成。好みで丁子を浮かべる",
+    ],
+    recipe: [
+      { materialId: "rum", amount: "45ml" },
+      { materialId: "butter", amount: "10g" },
+      { materialId: "gum-syrup", amount: "1tsp" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ホット・バタード・ラム",
+  },
+  {
+    id: "white-russian",
+    name: "ホワイト・ルシアン",
+    nameEn: "White Russian",
+    description:
+      "ウォッカとコーヒーリキュールに生クリームを加えた、ブラック・ルシアンのバリエーション。1950 年代に考案され、1998 年の映画『ビッグ・リボウスキ』で主人公が偏愛する飲み物として印象的に用いられた。乳製品を使うカクテルとしては例外的にアルコール度数が高い。",
+    difficulty: "easy",
+    alcoholLevel: "high",
+    steps: [
+      "氷を入れたロックグラスにウォッカとコーヒーリキュールを注ぎ、軽く混ぜる",
+      "上から生クリームを注いでフロートさせる（しっかり混ぜてもよい）",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "40ml" },
+      { materialId: "kahlua", amount: "20ml" },
+      { materialId: "cream", amount: "20ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ホワイト・ルシアン",
+  },
+  {
+    id: "manhattan",
+    name: "マンハッタン",
+    nameEn: "Manhattan",
+    description:
+      "ウイスキーとスイート・ベルモットにアンゴスチュラ・ビターズを加えてステアする、「カクテルの女王」と呼ばれるショートドリンク。1850〜1880 年代に誕生したと考えられ、ウィンストン・チャーチルの母ジャネット・ジェロームが考案したとする説が有名。マラスキーノ・チェリーを飾る。",
+    difficulty: "normal",
+    alcoholLevel: "high",
+    steps: [
+      "全ての材料を氷と共にミキシンググラスに入れ、よくステアする",
+      "冷やしたカクテルグラスに注ぐ",
+      "好みでマラスキーノ・チェリーを飾る",
+    ],
+    recipe: [
+      { materialId: "whisky", amount: "50ml" },
+      { materialId: "sweet-vermouth", amount: "20ml" },
+      { materialId: "angostura-bitters", amount: "1 dash" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/マンハッタン_(カクテル)",
+  },
+  {
+    id: "rusty-nail",
+    name: "ラスティ・ネイル",
+    nameEn: "Rusty Nail",
+    description:
+      "スコッチ・ウイスキーとドランブイを氷を入れたロックグラスで合わせるカクテル。錆びた釘のような赤茶色の色合いが名前の由来とされ、第二次世界大戦後に考案された。アーサー・ヘイリーの小説『ホテル』にも登場する。アルコール度数は 37〜41 度。",
+    difficulty: "easy",
+    alcoholLevel: "high",
+    steps: [
+      "氷で満たしたオールド・ファッションド・グラスに材料を注ぐ",
+      "ゆっくり混ぜる",
+      "好みでレモンのゼストを飾る",
+    ],
+    recipe: [
+      { materialId: "whisky", amount: "45ml" },
+      { materialId: "drambuie", amount: "25ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ラスティ・ネイル",
+  },
+  {
+    id: "godfather",
+    name: "ゴッドファーザー",
+    nameEn: "Godfather",
+    description:
+      "ウイスキーにアマレットを加えた、アーモンド風味の香りと甘味が特徴のカクテル。小説『ゴッドファーザー』をイメージして作られ、イタリア系マフィアを描いた作品にちなんでイタリア産のアマレットが使われた。ウイスキーの種類は決められていないがスコッチが多い。アルコール度数は 34〜36 度。",
+    difficulty: "easy",
+    alcoholLevel: "high",
+    steps: [
+      "氷を入れたオールド・ファッションド・グラスにウイスキーとアマレットを入れる",
+      "ステアする",
+    ],
+    recipe: [
+      { materialId: "whisky", amount: "45ml" },
+      { materialId: "amaretto", amount: "15ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ゴッドファーザー_(カクテル)",
+  },
+  {
+    id: "sidecar",
+    name: "サイドカー",
+    nameEn: "Sidecar",
+    description:
+      "コニャック（ブランデー）にホワイト・キュラソーとレモンジュースをシェイクしたショートドリンク。パリのハリーズ・ニューヨーク・バーのハリー・マッケルホーンが、愛飲する客がサイドカーに乗って来店したことから命名したという説が広く知られる。アルコール度数は 20〜30 度。",
+    difficulty: "normal",
+    alcoholLevel: "high",
+    steps: [
+      "全ての材料をシェイカーに入れ、氷と共によくシェイクする",
+      "冷やしたカクテルグラスに注ぐ",
+    ],
+    recipe: [
+      { materialId: "brandy", amount: "50ml" },
+      { materialId: "triple-sec", amount: "20ml" },
+      { materialId: "lemon-juice", amount: "20ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/サイドカー_(カクテル)",
+  },
+  {
+    id: "cosmopolitan",
+    name: "コスモポリタン",
+    nameEn: "Cosmopolitan",
+    description:
+      "ウォッカにコアントロー、クランベリージュース、フレッシュライムジュースを合わせたショートドリンク。コアントローのオレンジ風味にクランベリーとライムの味が調和したフルーティーな味わい。テレビドラマ『セックス・アンド・ザ・シティ』で主人公たちが飲んだことで世界的に知られた。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたシェイカーに全ての材料を入れ、よくシェイクする",
+      "大型のカクテルグラスに注ぐ",
+      "好みでレモンツイストを飾る",
+    ],
+    recipe: [
+      { materialId: "vodka", amount: "40ml" },
+      { materialId: "triple-sec", amount: "15ml" },
+      { materialId: "lime-juice", amount: "15ml" },
+      { materialId: "cranberry-juice", amount: "30ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/コスモポリタン_(カクテル)",
+  },
+  {
+    id: "spritz",
+    name: "スプリッツ",
+    nameEn: "Spritz",
+    description:
+      "プロセッコ（白のスパークリングワイン）とアペロールをソーダで割った、ヴェネツィア生まれのロングドリンク。19 世紀末、駐屯するオーストリア兵がワインに「ソーダ水を加えてくれ」と頼んだことに由来するとされる。アペロールの代わりにカンパリやチナールを使う版もある。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷で満たしたワイングラスに全ての材料を注ぐ",
+      "静かにステアする",
+      "好みでスライスしたオレンジを飾る",
+    ],
+    recipe: [
+      { materialId: "sparkling-wine", amount: "90ml" },
+      { materialId: "aperol", amount: "60ml" },
+      { materialId: "soda", amount: "適量" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/スプリッツ",
   },
 ];
