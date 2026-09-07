@@ -4,17 +4,21 @@ import { alcoholLevelLabel, difficultyLabel } from "@/components/labels";
 type Props = {
   cocktails: readonly Cocktail[];
   onSelect: (cocktail: Cocktail) => void;
+  /** 0 件のときの案内文。省略時はマイバー画面向けの文言。 */
+  emptyMessage?: string;
 };
 
 /** 作れるカクテルの一覧と件数。0 件のときも「0 件」を出す。 */
-export function CocktailList({ cocktails, onSelect }: Props) {
+export function CocktailList({ cocktails, onSelect, emptyMessage }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-sm text-neutral-500" aria-live="polite">
         作れるカクテル <span className="font-semibold text-foreground">{`${cocktails.length} 件`}</span>
       </p>
       {cocktails.length === 0 ? (
-        <p className="text-sm text-neutral-500">材料をタップすると、作れるカクテルがここに出ます。</p>
+        <p className="text-sm text-neutral-500">
+          {emptyMessage ?? "材料をタップすると、作れるカクテルがここに出ます。"}
+        </p>
       ) : (
         <ul className="flex flex-col gap-2">
           {cocktails.map((c) => (
