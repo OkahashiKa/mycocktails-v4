@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { categories } from "@/content/categories";
 import { cocktails } from "@/content/cocktails";
 import { materials } from "@/content/materials";
+import type { Session } from "@supabase/supabase-js";
 import type { Cocktail } from "@/content/schema";
 import { makeable } from "@/lib/makeable";
 import { supabase } from "@/lib/supabase";
@@ -28,14 +29,19 @@ export default function Home() {
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      const { data } = await supabase.auth.getSession();
+    // 手持ちを二重に読まないための記録。トークン更新でも同じユーザーなら読み直さない。
+    let loadedUserId: string | null = null;
+
+    // セッションの有無が確定してから動く。マジックリンクの戻りは /#access_token=... に
+    // 着地した直後まだセッションが無いので、確定前に /login へ送るとログインできた人を弾く。
+    const apply = async (session: Session | null) => {
       if (cancelled) return;
-      const session = data.session;
       if (!session) {
         router.replace("/login");
         return;
       }
+      if (loadedUserId === session.user.id) return;
+      loadedUserId = session.user.id;
       setUserId(session.user.id);
       try {
         const fromDb = await loadOwned(supabase, session.user.id);
@@ -47,10 +53,20 @@ export default function Home() {
         if (cancelled) return;
         setError(e instanceof Error ? e.message : String(e));
       }
+      if (cancelled) return;
       setLoaded(true);
-    })();
+    };
+
+    // getSession は初期化（URL のハッシュの取り込みを含む）が終わってから返る。
+    void supabase.auth.getSession().then(({ data }) => apply(data.session));
+    // 戻りが getSession の後に確定する場合と、ログアウトに備えて購読する。
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      void apply(session);
+    });
+
     return () => {
       cancelled = true;
+      sub.subscription.unsubscribe();
     };
   }, [router]);
 

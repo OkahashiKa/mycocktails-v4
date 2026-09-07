@@ -38,7 +38,10 @@
 - 来客向けの読み取りは RPC `shared_material_ids(p_user uuid)` 1 本。`security definer` で、ログインしていない（`anon`）状態からも呼べる。そのため Supabase の Security Advisor は lint 0028（`anon_security_definer_function_executable`、WARN）を出す。**この WARN は承知のうえで残す**（要件定義の決定。2026-09-07 に shika が確認）
 - 残せる理由: この関数は「ユーザー ID（UUID）を知っている人に、その人の材料 ID の一覧を見せる」ためだけのもので、返すのは `material_id` の配列だけ。引数無しでは呼べず、UUID を知らなければ何も取れない。`search_path = ''` に固定し、本文の名前をすべてスキーマ修飾しているので、lint 0011（`function_search_path_mutable`）は出ない
 - スキーマの変更は migration 経由のみ（`npx supabase migration new <name>` → SQL を書く → `npx supabase db push`）。ダッシュボードの SQL Editor で恒久変更をしない
-- ログインはメールの 6 桁コード（`signInWithOtp` → `verifyOtp({ type: 'email' })`）。マジックリンクの戻り処理は無い。ダッシュボードの Email Templates（Magic Link）に `{{ .Token }}` を入れておく
+- ログインはメールのマジックリンク（`signInWithOtp` に `emailRedirectTo` を渡す。戻り先はハードコードせず、開いている origin の `/`）。リンクを押すと `/#access_token=...` に着地し、`detectSessionInUrl: true` のクライアントがそこからセッションを張る
+- 6 桁コード入力（`verifyOtp`）は使わない。コードを出すには認証メールのテンプレートに `{{ .Token }}` を入れる必要があるが（https://supabase.com/docs/guides/auth/auth-email-templates ）、2026-06-03 以降に作られた無料プランのプロジェクトは Supabase 組み込みのメール送信を使う限りテンプレートを編集できない（https://supabase.com/changelog/46599-changes-to-email-template-customisation-on-free-tier ）。このプロジェクトは 2026-09-07 作成で対象に当たり、編集できない既定テンプレートが出すのはサインイン用のリンクだけ
+- そのため、ダッシュボードの Authentication → URL Configuration で Site URL を本番 URL `https://mycocktails-v4.vercel.app` にしておく。`emailRedirectTo` はここか Redirect URLs の許可リストに一致する必要があり、外れるとリンクは Site URL に落ちる（https://supabase.com/docs/guides/auth/redirect-urls ）
+- 組み込みのメール送信には送信数の上限がある。ログインのメールを何度も送って試さない
 - Free プロジェクトは 1 週間読み書きが無いと停止するので、`.github/workflows/keepalive.yml` が毎日 1 回 RPC `shared_material_ids` を curl で叩く。URL とキーは GitHub リポジトリの Secrets `SUPABASE_URL` と `SUPABASE_PUBLISHABLE_KEY` から読む（値は `.env.local` の 2 つと同じ公開用の値）
 - 公開リポジトリでは 60 日間リポジトリに活動が無いとスケジュール実行が自動で無効化される。止まっていたら `gh workflow enable keepalive.yml`（または Actions タブの Enable workflow）で戻し、`gh workflow run keepalive.yml` で 1 回手動実行して `success` を確かめる
 
@@ -85,7 +88,7 @@
 | 2🧨 | 同・壊し検査 | `sed -i.bak 's/materialId: "gin"/materialId: "no-such-material"/' src/content/cocktails.ts; cmp -s src/content/cocktails.ts src/content/cocktails.ts.bak && echo "SED_MATCHED_NOTHING"; npm run content:check; echo "exit=$?"; mv src/content/cocktails.ts.bak src/content/cocktails.ts` | `SED_MATCHED_NOTHING` が出ず、`unknown_material_refs=` が 1 以上かつ `exit=1`。戻した後「コンテンツが検証を通る」が再び `exit=0` | `SED_MATCHED_NOTHING` → 書式が `materialId: "gin"` でない。落ちない → `scripts/content-check.ts` の突き合わせを見る |
 | 3 | 判定ロジックが落ちる | `npm test -- makeable >/dev/null 2>&1; echo "exit=$?"` | `exit=0` | `npm test -- makeable > /tmp/vitest.txt 2>&1; tail -20 /tmp/vitest.txt` |
 | 3🧨 | 同・壊し検査 | `sed -i.bak 's/\.every(/.some(/' src/lib/makeable.ts; cmp -s src/lib/makeable.ts src/lib/makeable.ts.bak && echo "SED_MATCHED_NOTHING"; npm test -- makeable >/dev/null 2>&1; echo "exit=$?"; mv src/lib/makeable.ts.bak src/lib/makeable.ts` | `SED_MATCHED_NOTHING` が出ず `exit=1`。戻した後「判定ロジックが落ちる」が再び `exit=0` | `exit=0` のまま → テストの 2 ケース目に手持ちに無い材料が入っているかを見る |
-| 4 | オペレーターの縦串が動く | 本番 URL の `/login` でログイン → マイバー画面で材料チップを 1 つタップ → ページをリロード。続けて `ls docs/dod/operator.png` | リロード後もそのチップが選択状態で件数行が同じ値。`docs/dod/operator.png` が表示される | 選択が消える → DevTools の Network で insert の応答本文を読む。png が無い → スクリーンショットを撮って置く |
+| 4 | オペレーターの縦串が動く | 本番 URL の `/login` にメールアドレスを入れて送信 → 届いたメールのリンクを開く → マイバー画面で材料チップを 1 つタップ → ページをリロード。続けて `ls docs/dod/operator.png` | リンクを開くとマイバー画面が出る。リロード後もそのチップが選択状態で件数行が同じ値。`docs/dod/operator.png` が表示される | リンクが localhost へ飛ぶ → ダッシュボードの Site URL が本番 URL になっていない。選択が消える → DevTools の Network で insert の応答本文を読む。png が無い → スクリーンショットを撮って置く |
 | 5 | ゲストの縦串が動く | マイバー画面で「共有 URL をコピー」→ シークレットウィンドウで開く。次にマイバー画面で手持ちを全部外し、シークレットウィンドウをリロード | 1 回目はマイバー画面と同じ `N 件`、2 回目は `0 件` | `/login` に飛ぶ → 共有ページが認証ガードの対象。何も出ない → 空配列のときに件数行を描画していない |
 | 5🧨 | 同・壊し検査 | 実装計画「共有ページ」の記録欄に「Pause 中の表示: 取得できません」が記録済みならそれを合格とし、再実行しない（壊し検査は 1 回。復元後の URL 同一性が未確認なので本番を 2 度止めない）。記録が無い場合のみ: Supabase ダッシュボードで Pause → シークレットウィンドウで共有 URL を開く → Restore → Project URL が変わっていないことを見る | 記録済み、または `取得できません` が出て `0 件` は出ない | `0 件` が出る → RPC のエラーを空配列として扱っている |
 | 6 | リポジトリに秘密が無い | `git grep -c -E -e 'service_[r]ole' -e 'postgres(ql)?://' -- .; echo "exit=$?"` | `exit=1` の 1 行だけ（一致したファイルの行が出ない。`[r]` はこの README と CLAUDE.md が検査に自己一致しないため。要件定義の式と同値） | 一致したファイルの該当行を消す。履歴に入っていたら、そのキーをローテーションする |
@@ -113,6 +116,7 @@
 | コンテンツ拡充（1 回目・生成） | 2026-09-07 13:28 | 13:36 | 8 分 |
 | コンテンツ拡充（3 回目 A・生成） | 2026-09-07 19:41 | 19:48 | 7 分 |
 | コンテンツ拡充（3 回目 B・生成） | 2026-09-07 20:12 | 20:18 | 6 分 |
+| ログインをマジックリンクに変更 | 2026-09-07 23:48 | 23:56 | 8 分 |
 
 ## 過去の世代
 

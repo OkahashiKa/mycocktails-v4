@@ -7,7 +7,8 @@ const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 export const supabase = createClient(url, publishableKey, {
   auth: {
-    // ログインは 6 桁コード入力（verifyOtp）。マジックリンクの戻り（URL のハッシュ）は扱わない。
-    detectSessionInUrl: false,
+    // ログインはマジックリンク。戻り先の URL のハッシュ（#access_token=...）を
+    // クライアントに拾わせてセッションを張る。
+    detectSessionInUrl: true,
   },
 });
