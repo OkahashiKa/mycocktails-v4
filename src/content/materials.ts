@@ -48,4 +48,11 @@ export const materials: Material[] = [
   { id: "beer", name: "ビール", categoryId: "other" },
   { id: "cream", name: "生クリーム", categoryId: "other" },
   { id: "butter", name: "バター", categoryId: "other" },
+  // 3 回目の拡充・後半（2026-09-07）で足した 5 件。IBA 公式リストとサントリー「知っておきたいスタンダードカクテル」に
+  // 載るメジャーなカクテル 8 件に要る材料。
+  { id: "calvados", name: "カルヴァドス", categoryId: "spirits" },
+  { id: "sherry", name: "ドライシェリー", categoryId: "wine" },
+  { id: "creme-de-cacao", name: "クレーム・ド・カカオ", categoryId: "liqueur" },
+  { id: "orange-bitters", name: "オレンジビターズ", categoryId: "other" },
+  { id: "espresso", name: "エスプレッソ", categoryId: "other" },
 ];

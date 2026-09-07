@@ -871,4 +871,162 @@ export const cocktails: Cocktail[] = [
     ],
     sourceUrl: "https://ja.wikipedia.org/wiki/スプリッツ",
   },
+  {
+    id: "bellini",
+    name: "ベリーニ",
+    nameEn: "Bellini",
+    description:
+      "ヴェネツィアのハリーズ・バーのオーナー、ジュゼッペ・チプリアーニが 1948 年に画家ジョヴァンニ・ベリーニの展覧会にちなんで考案したスパークリングワインのカクテル。発泡酒の爽やかさに桃の上品な甘さが加わる。ここではピーチリキュールを使うキリンの公式配合を採った。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "よく冷やしたフルートグラスにピーチリキュールを注ぐ",
+      "冷やしたスパークリングワインで満たす",
+      "泡を消さないよう静かにステアする",
+    ],
+    recipe: [
+      { materialId: "peach", amount: "10ml" },
+      { materialId: "sparkling-wine", amount: "100ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ベリーニ",
+  },
+  {
+    id: "jack-rose",
+    name: "ジャック・ローズ",
+    nameEn: "Jack Rose",
+    description:
+      "アップルブランデー（アップルジャック）にライムジュースとグレナデンシロップを合わせたショートドリンク。名前はベースの「ジャック」と仕上がりの色の「ローズ」を組み合わせたものとされる。日本ではライムが手に入りにくかった頃、レモンジュースで代用されていた。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "シェイカーに氷とカルヴァドス、ライムジュース、グレナデンシロップを入れる",
+      "よくシェイクする",
+      "冷やしたカクテルグラスに注ぐ",
+    ],
+    recipe: [
+      { materialId: "calvados", amount: "30ml" },
+      { materialId: "lime-juice", amount: "15ml" },
+      { materialId: "grenadine", amount: "15ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ジャック・ローズ",
+  },
+  {
+    id: "bamboo",
+    name: "バンブー",
+    nameEn: "Bamboo",
+    description:
+      "ドライシェリーをベースに、ドライヴェルモットとオレンジビターズを合わせたショートドリンク。1890 年頃、横浜グランドホテルのバーテンダー、ルイス・エッピンガーが考案したとされる。横浜、ミリオンダラー、チェリーブロッサムと並ぶ「横浜四大カクテル」の一つ。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "ミキシンググラスに氷と全ての材料を入れてステアする",
+      "冷やしたカクテルグラスに注ぐ",
+      "好みでオレンジピールの皮油を絞りかける",
+    ],
+    recipe: [
+      { materialId: "sherry", amount: "40ml" },
+      { materialId: "vermouth", amount: "20ml" },
+      { materialId: "orange-bitters", amount: "1 dash" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/バンブー_(カクテル)",
+  },
+  {
+    id: "red-eye",
+    name: "レッド・アイ",
+    nameEn: "Red Eye",
+    description:
+      "ビールをトマトジュースで割ったロングドリンク。名前は飲み過ぎた翌朝の血走った眼に由来する。ビールの苦みが和らぎフルーティーな味わいになる。アルコール度数が 2〜3 度と低くビタミンも豊富なため、迎え酒に向くとされる。",
+    difficulty: "easy",
+    alcoholLevel: "low",
+    steps: [
+      "グラスにトマトジュースを注ぐ",
+      "よく冷やしたビールを注ぐ",
+      "軽く混ぜる",
+    ],
+    recipe: [
+      { materialId: "tomato-juice", amount: "150ml" },
+      { materialId: "beer", amount: "150ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/レッド・アイ",
+  },
+  {
+    id: "mint-beer",
+    name: "ミント・ビア",
+    nameEn: "Mint Beer",
+    description:
+      "よく冷やしたビールにグリーンペパーミントリキュールを加えたロングドリンク。淡い緑色に仕上がる。黒ビールは使わず、風味を保つために氷は入れない。ミントの清涼感でビールの苦みが軽くなる。",
+    difficulty: "easy",
+    alcoholLevel: "low",
+    steps: [
+      "よく冷やしたビール（黒ビールは使わない）をゴブレットに注ぐ",
+      "グリーンのクレーム・ド・メントを加える",
+      "氷は入れずに軽くステアする",
+    ],
+    recipe: [
+      { materialId: "beer", amount: "適量" },
+      { materialId: "creme-de-menthe", amount: "20ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ミント・ビア",
+  },
+  {
+    id: "irish-coffee",
+    name: "アイリッシュ・コーヒー",
+    nameEn: "Irish Coffee",
+    description:
+      "ホットコーヒーにアイリッシュウイスキーと砂糖を加え、生クリームをフロートさせたホットカクテル。1942 年、アイルランド南西部フォインズの水上飛行場のパブで、シェフのジョー・シェリダンが大西洋横断路線の乗客を温めるために考案した。アルコール度数は 18 度。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "温めたグラスに熱いコーヒーを注ぐ",
+      "ウイスキーとガムシロップを加え、溶けるまでステアする",
+      "冷やした生クリームをスプーンの背に伝わせて静かに浮かべる",
+    ],
+    recipe: [
+      { materialId: "espresso", amount: "120ml" },
+      { materialId: "whisky", amount: "50ml" },
+      { materialId: "gum-syrup", amount: "1 tsp" },
+      { materialId: "cream", amount: "50ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/アイリッシュ・コーヒー",
+  },
+  {
+    id: "alexander",
+    name: "アレクサンダー",
+    nameEn: "Alexander",
+    description:
+      "ブランデーにクレーム・ド・カカオと生クリームをシェイクしたショートドリンク。チョコレートケーキのような味わいで、甘さのため度数の割に飲みやすい。1863 年のイギリス王太子エドワードとデンマークのアレクサンドラ王女の婚礼にちなむ命名という説がある。アルコール度数は 21〜23 度。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたシェイカーに全ての材料を入れる",
+      "よくシェイクする",
+      "冷やしたカクテルグラスに注ぎ、好みでナツメグを振る",
+    ],
+    recipe: [
+      { materialId: "brandy", amount: "30ml" },
+      { materialId: "creme-de-cacao", amount: "30ml" },
+      { materialId: "cream", amount: "30ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/アレクサンダー_(カクテル)",
+  },
+  {
+    id: "grasshopper",
+    name: "グラスホッパー",
+    nameEn: "Grasshopper",
+    description:
+      "グリーンのクレーム・ド・メント、ホワイトのクレーム・ド・カカオ、生クリームを同量ずつシェイクしたショートドリンク。名前はバッタ（キリギリス）の意味で、淡い緑色の見た目に由来する。もとは層状のプース・カフェスタイルだった。食後酒として知られる。",
+    difficulty: "normal",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたシェイカーに全ての材料を入れる",
+      "数秒間、手早くシェイクする",
+      "冷やしたカクテルグラスに注ぎ、好みでミントの葉を飾る",
+    ],
+    recipe: [
+      { materialId: "creme-de-cacao", amount: "20ml" },
+      { materialId: "creme-de-menthe", amount: "20ml" },
+      { materialId: "cream", amount: "20ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/グラスホッパー_(カクテル)",
+  },
 ];
