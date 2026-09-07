@@ -23,6 +23,7 @@ export function MaterialChips({ categories, materials, owned, onToggle }: Props)
             <div className="flex flex-wrap gap-2">
               {items.map((m) => {
                 const selected = owned.has(m.id);
+                // min-h-11 = 44px。指で押せる高さ。長い名前は max-w-full + break-words で折り返す。
                 return (
                   <button
                     key={m.id}
@@ -30,7 +31,7 @@ export function MaterialChips({ categories, materials, owned, onToggle }: Props)
                     aria-pressed={selected}
                     onClick={() => onToggle(m.id)}
                     className={
-                      "rounded-full border px-3 py-1.5 text-sm transition-colors " +
+                      "min-h-11 max-w-full break-words rounded-full border px-3 py-1.5 text-sm transition-colors " +
                       (selected
                         ? "border-amber-600 bg-amber-600 text-white"
                         : "border-neutral-300 bg-transparent hover:bg-neutral-100 dark:border-neutral-600 dark:hover:bg-neutral-800")

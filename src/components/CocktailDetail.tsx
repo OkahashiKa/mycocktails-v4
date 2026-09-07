@@ -33,20 +33,21 @@ export function CocktailDetail({ cocktail, materials, onClose }: Props) {
         aria-modal="true"
         aria-labelledby={titleId}
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-2xl bg-background p-5 shadow-xl sm:rounded-2xl"
+        className="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-t-2xl bg-background p-5 shadow-xl sm:rounded-2xl"
       >
         <div className="mb-3 flex items-start justify-between gap-3">
-          <div className="min-w-0">
+          <div className="min-w-0 break-words">
             <h2 id={titleId} className="text-xl font-semibold">
               {cocktail.name}
             </h2>
             {cocktail.nameEn ? <p className="text-sm text-neutral-500">{cocktail.nameEn}</p> : null}
           </div>
+          {/* min-h-11 min-w-11 = 44px 四方。指で押せる大きさ。 */}
           <button
             type="button"
             onClick={onClose}
             aria-label="閉じる"
-            className="shrink-0 rounded-full px-3 py-1 text-sm text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full px-3 text-sm text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
             閉じる
           </button>
@@ -69,11 +70,11 @@ export function CocktailDetail({ cocktail, materials, onClose }: Props) {
         <ul className="mb-4 flex flex-col gap-1 text-sm">
           {cocktail.recipe.map((line) => (
             <li key={line.materialId} className="flex justify-between gap-3">
-              <span>
+              <span className="min-w-0 break-words">
                 {nameOf(line.materialId)}
                 {line.optional ? "（お好みで）" : ""}
               </span>
-              <span className="text-neutral-500">{line.amount}</span>
+              <span className="shrink-0 text-neutral-500">{line.amount}</span>
             </li>
           ))}
         </ul>
