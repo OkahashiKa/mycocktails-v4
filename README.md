@@ -19,18 +19,33 @@
    cp .env.example .env.local   # 上の 2 値を書く
    npm run dev                  # http://localhost:3000
    ```
-3. 本番: https://<本番URL>（main に push すると Vercel が自動デプロイ）
+3. 本番: https://mycocktails-v4.vercel.app（main に push すると Vercel が自動デプロイ）
 4. Supabase が Paused と表示されていたら、ダッシュボードで Restore してから 1〜2 を試す（停止から 1 年以内なら復元できる）
 
 接続文字列（postgres で始まる URL）やサーバー専用キーはここに書かない。
+
+## Supabase
+
+- 手持ち材料は `user_material` テーブル 1 つ（`supabase/migrations/` の SQL）。RLS を有効にし、本人の行だけを select / insert / delete できるポリシーを 3 本置く。`anon` にはテーブルへの grant もポリシーも無い
+- 来客向けの読み取りは RPC `shared_material_ids(p_user uuid)` 1 本。`security definer` で、ログインしていない（`anon`）状態からも呼べる。そのため Supabase の Security Advisor は lint 0028（`anon_security_definer_function_executable`、WARN）を出す。**この WARN は承知のうえで残す**（要件定義の決定。2026-09-07 に shika が確認）
+- 残せる理由: この関数は「ユーザー ID（UUID）を知っている人に、その人の材料 ID の一覧を見せる」ためだけのもので、返すのは `material_id` の配列だけ。引数無しでは呼べず、UUID を知らなければ何も取れない。`search_path = ''` に固定し、本文の名前をすべてスキーマ修飾しているので、lint 0011（`function_search_path_mutable`）は出ない
+- スキーマの変更は migration 経由のみ（`npx supabase migration new <name>` → SQL を書く → `npx supabase db push`）。ダッシュボードの SQL Editor で恒久変更をしない
+- ログインはメールの 6 桁コード（`signInWithOtp` → `verifyOtp({ type: 'email' })`）。マジックリンクの戻り処理は無い。ダッシュボードの Email Templates（Magic Link）に `{{ .Token }}` を入れておく
+- Free プロジェクトは 1 週間読み書きが無いと停止するので、`.github/workflows/keepalive.yml` が毎日 1 回 RPC `shared_material_ids` を curl で叩く。URL とキーは GitHub リポジトリの Secrets `SUPABASE_URL` と `SUPABASE_PUBLISHABLE_KEY` から読む（値は `.env.local` の 2 つと同じ公開用の値）
+- 公開リポジトリでは 60 日間リポジトリに活動が無いとスケジュール実行が自動で無効化される。止まっていたら `gh workflow enable keepalive.yml`（または Actions タブの Enable workflow）で戻し、`gh workflow run keepalive.yml` で 1 回手動実行して `success` を確かめる
 
 ## 作業ログ
 
 | セッション名 | 開始 | 終了 | 拘束時間 |
 |---|---|---|---|
 | 着手前 | 2026-09-07 12:20 | 12:26 | 6 分（Supabase のみ） |
-| 初日デプロイ | 2026-09-07 12:26 | | |
+| 初日デプロイ | 2026-09-07 12:26 | 14:21 | 10 分（コード部分と検証）＋ Vercel 連携（shika、14:21 に本番 URL 確定） |
 | コンテンツ移植 | 2026-09-07 12:37 | 12:42 | 5 分 |
+| 判定とマイバー画面 | 2026-09-07 12:46 | 12:49 | 3 分 |
+| Supabase とログイン（コード部分） | 2026-09-07 12:54 | 13:00 | 6 分 |
+| 共有ページ（コード部分） | 2026-09-07 13:05 | 13:13 | 8 分 |
+| スマホ表示の仕上げ（コード部分） | 2026-09-07 13:18 | 13:24 | 6 分 |
+| コンテンツ拡充（1 回目・生成） | 2026-09-07 13:28 | 13:36 | 8 分 |
 
 ## 過去の世代
 
