@@ -62,7 +62,7 @@ function SharedList() {
     );
   }
   if (state.kind === "loading") {
-    return <p className="text-sm text-neutral-500">読み込み中</p>;
+    return <p className="text-sm text-neutral-500">読み込み中…</p>;
   }
   if (state.kind === "error") {
     return (
@@ -95,7 +95,7 @@ export default function SharedPage() {
         <p className="text-sm text-neutral-500">この一覧は持ち主が登録した材料で作れるカクテルです。</p>
       </header>
       {/* 静的 export では useSearchParams を呼ぶコンポーネントを Suspense で包む。包み忘れは next build で落ちる。 */}
-      <Suspense fallback={<p className="text-sm text-neutral-500">読み込み中</p>}>
+      <Suspense fallback={<p className="text-sm text-neutral-500">読み込み中…</p>}>
         <SharedList />
       </Suspense>
     </main>
