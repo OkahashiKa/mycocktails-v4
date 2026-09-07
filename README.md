@@ -31,6 +31,8 @@
 - 残せる理由: この関数は「ユーザー ID（UUID）を知っている人に、その人の材料 ID の一覧を見せる」ためだけのもので、返すのは `material_id` の配列だけ。引数無しでは呼べず、UUID を知らなければ何も取れない。`search_path = ''` に固定し、本文の名前をすべてスキーマ修飾しているので、lint 0011（`function_search_path_mutable`）は出ない
 - スキーマの変更は migration 経由のみ（`npx supabase migration new <name>` → SQL を書く → `npx supabase db push`）。ダッシュボードの SQL Editor で恒久変更をしない
 - ログインはメールの 6 桁コード（`signInWithOtp` → `verifyOtp({ type: 'email' })`）。マジックリンクの戻り処理は無い。ダッシュボードの Email Templates（Magic Link）に `{{ .Token }}` を入れておく
+- Free プロジェクトは 1 週間読み書きが無いと停止するので、`.github/workflows/keepalive.yml` が毎日 1 回 RPC `shared_material_ids` を curl で叩く。URL とキーは GitHub リポジトリの Secrets `SUPABASE_URL` と `SUPABASE_PUBLISHABLE_KEY` から読む（値は `.env.local` の 2 つと同じ公開用の値）
+- 公開リポジトリでは 60 日間リポジトリに活動が無いとスケジュール実行が自動で無効化される。止まっていたら `gh workflow enable keepalive.yml`（または Actions タブの Enable workflow）で戻し、`gh workflow run keepalive.yml` で 1 回手動実行して `success` を確かめる
 
 ## 作業ログ
 
@@ -41,6 +43,7 @@
 | コンテンツ移植 | 2026-09-07 12:37 | 12:42 | 5 分 |
 | 判定とマイバー画面 | 2026-09-07 12:46 | 12:49 | 3 分 |
 | Supabase とログイン（コード部分） | 2026-09-07 12:54 | 13:00 | 6 分 |
+| 共有ページ（コード部分） | 2026-09-07 13:05 | 13:13 | 8 分 |
 
 ## 過去の世代
 

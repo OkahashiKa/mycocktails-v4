@@ -23,6 +23,8 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Cocktail | null>(null);
+  // 共有 URL のコピー結果。copied = クリップボードに入った。fallback = API が使えず URL をそのまま出す。
+  const [share, setShare] = useState<{ kind: "copied" } | { kind: "fallback"; url: string } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -82,6 +84,18 @@ export default function Home() {
     router.replace("/login");
   };
 
+  // 共有 URL をクリップボードに入れる。失敗したら URL を画面に出す（クリップボード API が使えない環境向け）。
+  const copyShareUrl = async () => {
+    if (!userId) return;
+    const url = `${location.origin}/s?u=${userId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setShare({ kind: "copied" });
+    } catch {
+      setShare({ kind: "fallback", url });
+    }
+  };
+
   const close = useCallback(() => setSelected(null), []);
 
   if (!userId || !loaded) {
@@ -129,6 +143,33 @@ export default function Home() {
           作れるカクテル
         </h2>
         <CocktailList cocktails={list} onSelect={setSelected} />
+      </section>
+
+      <section aria-labelledby="share-heading" className="flex flex-col gap-2">
+        <h2 id="share-heading" className="text-lg font-medium">
+          来客に見せる
+        </h2>
+        <p className="text-sm text-neutral-500">共有 URL を開いた人は、ログインなしでこの一覧を見られます。</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={copyShareUrl}
+            className="rounded-md bg-amber-600 px-4 py-2 text-sm text-white"
+          >
+            共有 URL をコピー
+          </button>
+          {share?.kind === "copied" ? (
+            <span className="text-sm text-neutral-500" aria-live="polite">
+              コピーしました
+            </span>
+          ) : null}
+        </div>
+        {share?.kind === "fallback" ? (
+          <p className="text-sm" aria-live="polite">
+            コピーできませんでした。この URL を使ってください:{" "}
+            <code className="break-all rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">{share.url}</code>
+          </p>
+        ) : null}
       </section>
 
       {selected ? <CocktailDetail cocktail={selected} materials={materials} onClose={close} /> : null}
