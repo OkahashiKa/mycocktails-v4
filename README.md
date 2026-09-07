@@ -24,6 +24,14 @@
 
 接続文字列（postgres で始まる URL）やサーバー専用キーはここに書かない。
 
+## Supabase
+
+- 手持ち材料は `user_material` テーブル 1 つ（`supabase/migrations/` の SQL）。RLS を有効にし、本人の行だけを select / insert / delete できるポリシーを 3 本置く。`anon` にはテーブルへの grant もポリシーも無い
+- 来客向けの読み取りは RPC `shared_material_ids(p_user uuid)` 1 本。`security definer` で、ログインしていない（`anon`）状態からも呼べる。そのため Supabase の Security Advisor は lint 0028（`anon_security_definer_function_executable`、WARN）を出す。**この WARN は承知のうえで残す**（要件定義の決定。2026-09-07 に shika が確認）
+- 残せる理由: この関数は「ユーザー ID（UUID）を知っている人に、その人の材料 ID の一覧を見せる」ためだけのもので、返すのは `material_id` の配列だけ。引数無しでは呼べず、UUID を知らなければ何も取れない。`search_path = ''` に固定し、本文の名前をすべてスキーマ修飾しているので、lint 0011（`function_search_path_mutable`）は出ない
+- スキーマの変更は migration 経由のみ（`npx supabase migration new <name>` → SQL を書く → `npx supabase db push`）。ダッシュボードの SQL Editor で恒久変更をしない
+- ログインはメールの 6 桁コード（`signInWithOtp` → `verifyOtp({ type: 'email' })`）。マジックリンクの戻り処理は無い。ダッシュボードの Email Templates（Magic Link）に `{{ .Token }}` を入れておく
+
 ## 作業ログ
 
 | セッション名 | 開始 | 終了 | 拘束時間 |
@@ -32,6 +40,7 @@
 | 初日デプロイ | 2026-09-07 12:26 | | |
 | コンテンツ移植 | 2026-09-07 12:37 | 12:42 | 5 分 |
 | 判定とマイバー画面 | 2026-09-07 12:46 | 12:49 | 3 分 |
+| Supabase とログイン（コード部分） | 2026-09-07 12:54 | 13:00 | 6 分 |
 
 ## 過去の世代
 
