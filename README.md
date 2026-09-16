@@ -37,6 +37,9 @@
 - 手持ち材料は `user_material` テーブル 1 つ（`supabase/migrations/` の SQL）。RLS を有効にし、本人の行だけを select / insert / delete できるポリシーを 3 本置く。`anon` にはテーブルへの grant もポリシーも無い
 - 来客向けの読み取りは RPC `shared_material_ids(p_user uuid)` 1 本。`security definer` で、ログインしていない（`anon`）状態からも呼べる。そのため Supabase の Security Advisor は lint 0028（`anon_security_definer_function_executable`、WARN）を出す。**この WARN は承知のうえで残す**（要件定義の決定。2026-09-07 に shika が確認）
 - 残せる理由: この関数は「ユーザー ID（UUID）を知っている人に、その人の材料 ID の一覧を見せる」ためだけのもので、返すのは `material_id` の配列だけ。引数無しでは呼べず、UUID を知らなければ何も取れない。`search_path = ''` に固定し、本文の名前をすべてスキーマ修飾しているので、lint 0011（`function_search_path_mutable`）は出ない
+- カクテル画像は Storage の公開バケット `cocktail-images` 1 つ（`supabase/migrations/` の SQL）。パスは `<user_id>/<cocktail_id>` で、先頭のフォルダ名が持ち主のユーザー ID になる。`storage.objects` に「本人のフォルダだけ」を対象にした select / insert / update / delete のポリシーを 4 本置く
+- 画像の読み取りは公開バケットなので、URL を知っていれば誰でも開ける（来客がログインせずに画像を見るため）。`anon` には select ポリシーを与えないので、バケットの中身は列挙できない。来客の画面は画像の有無を問い合わせず、読み込みに失敗したカードから画像の枠を消す
+- 画像を 1.0 に含めるのは 2026-09-16 の判断（それまでは「1.1 に送る」だった）。**増やしたのは公開バケット 1 つだけで、テーブルも RPC も増やしていない**
 - スキーマの変更は migration 経由のみ（`npx supabase migration new <name>` → SQL を書く → `npx supabase db push`）。ダッシュボードの SQL Editor で恒久変更をしない
 - ログインはメールのマジックリンク（`signInWithOtp` に `emailRedirectTo` を渡す。戻り先はハードコードせず、開いている origin の `/`）。リンクを押すと `/#access_token=...` に着地し、`detectSessionInUrl: true` のクライアントがそこからセッションを張る
 - 6 桁コード入力（`verifyOtp`）は使わない。コードを出すには認証メールのテンプレートに `{{ .Token }}` を入れる必要があるが（https://supabase.com/docs/guides/auth/auth-email-templates ）、2026-06-03 以降に作られた無料プランのプロジェクトは Supabase 組み込みのメール送信を使う限りテンプレートを編集できない（https://supabase.com/changelog/46599-changes-to-email-template-customisation-on-free-tier ）。このプロジェクトは 2026-09-07 作成で対象に当たり、編集できない既定テンプレートが出すのはサインイン用のリンクだけ
@@ -79,7 +82,9 @@
 
 ## 完成の定義
 
-次の 7 項目がすべて満たされた時点で 1.0 とし、git タグ `v1.0.0` を打つ。それ以降の追加は 1.1 の課題として起票する。🧨 の行は壊し検査（検査が「落ちるべきときに落ちる」ことを、1.0 判定の前に 1 回確かめる）。コマンドはリポジトリのルートで叩く。
+次の 8 項目がすべて満たされた時点で 1.0 とし、git タグ `v1.0.0` を打つ。それ以降の追加は 1.1 の課題として起票する。🧨 の行は壊し検査（検査が「落ちるべきときに落ちる」ことを、1.0 判定の前に 1 回確かめる）。コマンドはリポジトリのルートで叩く。
+
+**2026-09-16 の改定（7 項目 → 8 項目）**: カクテル画像を 1.0 に含める判断をしたため、項目 8 を足した。要件定義には「1.0 の完成の定義に項目を足さない」という制約があり、**これはその制約を承知のうえで覆した改定**である（shika の判断）。
 
 **2026-09-08 の判断（当面は身内のみの運用）**: 本番のデータベースの権限を一時的に緩める検査（誰でも他人の手持ちを読めるように壊してから戻す）と、本番の Supabase を止める検査は実施しない。手元で数秒で終わる検査（コンテンツ・判定ロジック・秘密の混入）は従来どおり 1.0 判定の前に回す。
 
@@ -101,13 +106,16 @@
 | 6 | リポジトリに秘密が無い | `git grep -c -E -e 'service_[r]ole' -e 'postgres(ql)?://' -- .; echo "exit=$?"` | `exit=1` の 1 行だけ（一致したファイルの行が出ない。`[r]` はこの README と CLAUDE.md が検査に自己一致しないため。要件定義の式と同値） | 一致したファイルの該当行を消す。履歴に入っていたら、そのキーをローテーションする |
 | 6🧨 | 同・壊し検査 | `printf 'postgres%s\n' 'ql://x' > tmp-secret-test.txt; git add tmp-secret-test.txt; git grep -c -E -e 'service_[r]ole' -e 'postgres(ql)?://' -- .; echo "exit=$?"; git rm -f --cached tmp-secret-test.txt; rm tmp-secret-test.txt`（`printf` は接続文字列の形の 1 行 `postgres` + `ql://x` を一時ファイルに書く。README 自身が秘密検査に当たらないよう 2 つに分けている） | `tmp-secret-test.txt:1` と `exit=0`（検査が秘密を検出できる）。消した後「リポジトリに秘密が無い」が再び `exit=1` | 検出しない → `git grep` の対象に add されていない（`git add` を忘れている） |
 | 7 | 再開できる | `grep -c '^## 再開手順' README.md`、続けて `cd "$(mktemp -d)" && git clone https://github.com/OkahashiKa/mycocktails-v4 . >/dev/null 2>&1 && npm ci >/dev/null 2>&1 && cp .env.example .env.local && echo "clone=ok"`。その後「再開手順」どおりに `.env.local` の 2 値を入れ、`npm run dev` を叩いてブラウザで `http://localhost:3000/login` を開く | `1`、`clone=ok`、ログイン画面の見出し `ログイン` | `npm ci` が落ちる → `package-lock.json` がコミットされているかを見る。`npm run dev` が `Missing env` で落ちる → 再開手順の 2 値の書き方が README に足りない |
+| 8 | 画像が登録でき、来客にも見える | マイバー画面で作れるカクテルを 1 つ開き、「画像を追加する」から画像を選ぶ → カードの上部とモーダルに出ることを見る → 共有 URL をシークレットウィンドウで開く | カード上部・モーダル・共有ページのカードの 3 か所に同じ画像が出る。共有ページのモーダルには「画像を追加する」ボタンが出ない | 画像が出ない → バケット `cocktail-images` が公開になっているかを見る。保存が権限エラー → `storage.objects` のポリシー 4 本が当たっているかを見る |
+| 8🧨 | 同・壊し検査 | **本番の権限を緩める検査は実施しない**（2026-09-08 の判断を画像にも同じく当てる）。代わりに、画像を登録していないカクテルのカードとモーダルに画像の枠が出ないことを、同じ 1 回の確認の中で見る | 画像を登録していないカクテルには、枠ごと何も出ない | 枠だけ出る → `CocktailImage` の読み込み失敗時の分岐を見る |
 
-7 項目が通ったら `git checkout main && git pull && git tag -a v1.0.0 -m "1.0: 完成の定義 7 項目を $(date +%F) に確認" && git push origin v1.0.0`。ロールバックは `git push origin :refs/tags/v1.0.0 && git tag -d v1.0.0`。
+8 項目が通ったら `git checkout main && git pull && git tag -a v1.0.0 -m "1.0: 完成の定義 8 項目を $(date +%F) に確認" && git push origin v1.0.0`。ロールバックは `git push origin :refs/tags/v1.0.0 && git tag -d v1.0.0`。
 
 ## 1.1 の候補
 
 - あと 1 材料で作れるカクテル
-- カクテル画像と帰属表示
+- 画像の削除（1.0 でできるのは追加と上書きだけ）
+- 画像の縮小（1.0 は選んだファイルをそのまま上げる。バケット側で 5MB・JPEG/PNG/WebP に制限している）
 
 ## 作業ログ
 
@@ -126,6 +134,8 @@
 | ログインをマジックリンクに変更 | 2026-09-07 23:48 | 23:56 | 8 分 |
 | オペレーターの縦串の証跡を置く | 2026-09-08 00:40 | 00:42 | 2 分 |
 | 完成の定義を身内運用の範囲に合わせる | 2026-09-08 11:40 | 11:42 | 2 分 |
+| カクテル 5 件の追加と出典規約の拡張 | 2026-09-16 13:50 | 14:20 | 30 分（調査と PR まで） |
+| ユーザーごとのカクテル画像 | 2026-09-16 14:20 | 17:02 | 2 時間 42 分（一次情報の調査・shika の判断待ちを含む。ビルド合格まで） |
 
 ## 過去の世代
 

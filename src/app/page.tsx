@@ -10,6 +10,7 @@ import type { Cocktail } from "@/content/schema";
 import { makeable } from "@/lib/makeable";
 import { supabase } from "@/lib/supabase";
 import { addOwned, countOrphans, loadOwned, removeOwned } from "@/lib/ownedStore";
+import { imageUrl, loadImagedIds, uploadImage } from "@/lib/imageStore";
 import { MaterialChips } from "@/components/MaterialChips";
 import { CocktailList } from "@/components/CocktailList";
 import { CocktailDetail } from "@/components/CocktailDetail";
@@ -24,6 +25,12 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Cocktail | null>(null);
+  // 画像を登録済みのカクテル ID。Storage の list から読む（本人だけが呼べる）。
+  const [imagedIds, setImagedIds] = useState<Set<string>>(() => new Set());
+  // 差し替えた直後に CDN の古い画像が出ないよう、カクテルごとに URL へ付ける版を持つ。
+  const [imageVersion, setImageVersion] = useState<Record<string, number>>({});
+  const [uploading, setUploading] = useState(false);
+  const [imageError, setImageError] = useState<string | null>(null);
   // 共有 URL のコピー結果。copied = クリップボードに入った。fallback = API が使えず URL をそのまま出す。
   const [share, setShare] = useState<{ kind: "copied" } | { kind: "fallback"; url: string } | null>(null);
 
@@ -52,6 +59,15 @@ export default function Home() {
       } catch (e) {
         if (cancelled) return;
         setError(e instanceof Error ? e.message : String(e));
+      }
+      // 画像の一覧は手持ちとは別に読む。ここが落ちても画面は出す（画像が出ないだけ）。
+      try {
+        const ids = await loadImagedIds(supabase, session.user.id);
+        if (cancelled) return;
+        setImagedIds(ids);
+      } catch (e) {
+        if (cancelled) return;
+        setImageError(e instanceof Error ? e.message : String(e));
       }
       if (cancelled) return;
       setLoaded(true);
@@ -95,6 +111,22 @@ export default function Home() {
     }
   };
 
+  // 画像は楽観的更新にしない。保存が終わってから一覧に足す（途中で 404 の枠を出さないため）。
+  const pickImage = async (cocktailId: string, file: File) => {
+    if (!userId) return;
+    setImageError(null);
+    setUploading(true);
+    try {
+      await uploadImage(supabase, userId, cocktailId, file);
+      setImagedIds((prev) => new Set(prev).add(cocktailId));
+      setImageVersion((prev) => ({ ...prev, [cocktailId]: Date.now() }));
+    } catch (e) {
+      setImageError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const logout = async () => {
     await supabase.auth.signOut();
     router.replace("/login");
@@ -113,6 +145,15 @@ export default function Home() {
   };
 
   const close = useCallback(() => setSelected(null), []);
+
+  // 本人の画面は登録済みの ID が分かるので、画像があるカクテルにだけ URL を渡す。
+  const imageUrlOf = useCallback(
+    (cocktailId: string) =>
+      userId && imagedIds.has(cocktailId)
+        ? imageUrl(supabase, userId, cocktailId, imageVersion[cocktailId])
+        : null,
+    [userId, imagedIds, imageVersion],
+  );
 
   if (!userId || !loaded) {
     return (
@@ -158,7 +199,7 @@ export default function Home() {
         <h2 id="cocktails-heading" className="mb-3 text-lg font-medium">
           作れるカクテル
         </h2>
-        <CocktailList cocktails={list} onSelect={setSelected} />
+        <CocktailList cocktails={list} onSelect={setSelected} imageUrlOf={imageUrlOf} />
       </section>
 
       <section aria-labelledby="share-heading" className="flex flex-col gap-2">
@@ -188,7 +229,19 @@ export default function Home() {
         ) : null}
       </section>
 
-      {selected ? <CocktailDetail cocktail={selected} materials={materials} onClose={close} /> : null}
+      {selected ? (
+        <CocktailDetail
+          cocktail={selected}
+          materials={materials}
+          onClose={close}
+          imageUrl={imageUrlOf(selected.id)}
+          canEditImage
+          hasImage={imagedIds.has(selected.id)}
+          onPickImage={(file) => void pickImage(selected.id, file)}
+          uploading={uploading}
+          imageError={imageError}
+        />
+      ) : null}
     </main>
   );
 }
