@@ -1029,4 +1029,106 @@ export const cocktails: Cocktail[] = [
     ],
     sourceUrl: "https://ja.wikipedia.org/wiki/グラスホッパー_(カクテル)",
   },
+  // 4 回目の拡充（2026-09-16）で足した 5 件。shika の指名によるソーダ割り・コーラ割り中心の 5 件で、
+  // 新しい材料は要らなかった（ウイスキー・ラム・アマレット・ライチ・ピーチ・ソーダ・コーラ・ジンジャエールは既存）。
+  // ハイボールとラム・コークは日本語版 Wikipedia、残る 3 件は酒類メーカー公式のカクテルレシピを出典にした
+  // （生成規約 2 を 2026-09-16 に「Wikipedia またはメーカー公式」へ広げた。理由は同 PR の本文）。
+  // ラム・コークはキューバ・リブレの別称でもあるが、ライムジュースの有無で区別されるため別件として置く。
+  {
+    id: "highball",
+    name: "ハイボール",
+    nameEn: "Highball",
+    description:
+      "ウイスキーをソーダで割ったロングドリンク。広義には蒸留酒やリキュールを炭酸飲料で割ったカクテル全般を指す。名前の由来は、大陸横断鉄道の信号機を指す「ボール」説や、背の高いグラスをハイボールと呼んだ説がある。アルコール度数は約 11 度。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたタンブラーにウイスキーを注ぐ",
+      "よく冷やしたソーダで満たし、軽くステアする",
+      "好みでレモンピールを絞る",
+    ],
+    recipe: [
+      { materialId: "whisky", amount: "45ml" },
+      { materialId: "soda", amount: "105ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/ハイボール",
+  },
+  {
+    id: "rum-coke",
+    name: "ラム・コーク",
+    nameEn: "Rum and Coke",
+    description:
+      "ラムをコーラで割ったロングドリンク。ラム・コーラとも呼ばれる。これにライムジュースを加えたものがキューバ・リブレで、ライムの有無で区別される。瓶詰のコーラを用いるカクテルとしては極めて古いものの一つ。",
+    difficulty: "easy",
+    alcoholLevel: "medium",
+    steps: [
+      "氷を入れたタンブラーにラムを注ぐ",
+      "よく冷やしたコーラで満たし、軽くステアする",
+    ],
+    recipe: [
+      { materialId: "rum", amount: "45ml" },
+      { materialId: "cola", amount: "135ml" },
+    ],
+    sourceUrl: "https://ja.wikipedia.org/wiki/キューバ・リブレ",
+  },
+  {
+    id: "amaretto-ginger",
+    name: "アマレットジンジャー",
+    nameEn: "Amaretto Ginger",
+    description:
+      "アーモンドのような香りを持つイタリアのリキュール、アマレットをジンジャーエールで割ったロングドリンク。杏仁に似た甘い香りに、ジンジャーエールの辛みと炭酸が重なる。アルコール度数は約 6 度。",
+    difficulty: "easy",
+    alcoholLevel: "low",
+    steps: [
+      "氷を入れたタンブラーにアマレットを注ぐ",
+      "よく冷やしたジンジャエールで満たし、軽くステアする",
+      "好みでカットレモンを添える",
+    ],
+    recipe: [
+      { materialId: "amaretto", amount: "30ml" },
+      { materialId: "ginger-ale", amount: "90ml" },
+    ],
+    sourceUrl:
+      "https://www.asahibeer.co.jp/cocktailguide/recipe/index.psp.html?ID=1010401168",
+  },
+  {
+    id: "lychee-soda",
+    name: "ライチソーダ",
+    nameEn: "Lychee Soda",
+    description:
+      "ライチリキュールをソーダで割ったロングドリンク。ライチの華やかな香りと炭酸の爽快感が合わさり、度数が低く飲みやすい。アルコール度数は約 4 度。",
+    difficulty: "easy",
+    alcoholLevel: "low",
+    steps: [
+      "氷を入れたタンブラーにライチリキュールを注ぐ",
+      "よく冷やしたソーダで満たし、軽くステアする",
+      "好みでカットレモンを添える",
+    ],
+    recipe: [
+      { materialId: "lychee", amount: "30ml" },
+      { materialId: "soda", amount: "90ml" },
+    ],
+    sourceUrl:
+      "https://www.kirin.co.jp/alcohol/spirits_liqueur/dekuyper_brand/recipe/",
+  },
+  {
+    id: "peach-fizz",
+    name: "ピーチフィズ",
+    nameEn: "Peach Fizz",
+    description:
+      "ピーチリキュールをソーダで割ったロングドリンク。ピーチツリーフィズとも呼ばれ、ピーチリキュールの代表的な飲み方として知られる。桃の甘い香りと炭酸の軽さが合わさる。",
+    difficulty: "easy",
+    alcoholLevel: "low",
+    steps: [
+      "氷を入れたタンブラーにピーチリキュールを注ぐ",
+      "よく冷やしたソーダで満たし、軽くステアする",
+      "好みでレモンスライスを飾る",
+    ],
+    recipe: [
+      { materialId: "peach", amount: "30ml" },
+      { materialId: "soda", amount: "90ml" },
+    ],
+    sourceUrl:
+      "https://www.kirin.co.jp/alcohol/spirits_liqueur/dekuyper_brand/recipe/",
+  },
 ];

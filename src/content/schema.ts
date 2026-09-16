@@ -31,7 +31,7 @@ export const CocktailSchema = z.object({
   alcoholLevel: z.enum(["low", "medium", "high"]),
   steps: z.array(z.string().min(1)).min(1),
   recipe: z.array(RecipeLineSchema).min(1),
-  sourceUrl: z.string().startsWith("https://"), // 出典（Wikipedia 記事）。生成規約で必須。URL 専用の検査関数は版で名前が変わるので使わない
+  sourceUrl: z.string().startsWith("https://"), // 出典（Wikipedia 記事、または酒類メーカー公式のカクテルレシピ）。生成規約で必須。URL 専用の検査関数は版で名前が変わるので使わない
 });
 
 export type MaterialCategory = z.infer<typeof MaterialCategorySchema>;
