@@ -8,7 +8,9 @@
 
 - Next.js App Router の静的 export（`output: 'export'`）。**サーバーコードは 0 行。**
 - カクテル・材料・カテゴリは `src/content/*.ts` のコンテンツ。DB には置かない。
-- Supabase は Auth（メール OTP）と `user_material` 1 テーブル、読み取り用 RPC `shared_material_ids` 1 本だけ。
+- Supabase は Auth（メールのマジックリンク）と `user_material` 1 テーブル、読み取り用 RPC `shared_material_ids` 1 本、カクテル画像の公開バケット `cocktail-images` 1 つだけ。
+  - 画像は 2026-09-16 に 1.0 へ含める判断をした（それまでは「1.1 に送る」だった）。**増やしたのは公開バケット 1 つだけで、テーブルも RPC も増やしていない。**パスは `<user_id>/<cocktail_id>`。書き込みは本人のフォルダのみ、読み取りは公開（来客がログインせずに見るため）。
+  - 認証の記述は 2026-09-16 に実物へ合わせた（2026-09-07 にメール OTP からマジックリンクへ変更済みだったが、この行が古いままだった）。
 - 「作れる」判定は `src/lib/makeable.ts` の純関数。レシピの必須材料集合 ⊆ 手持ち材料集合。
 - テストは 2 本: `npm run content:check`（コンテンツ検証）と `npm test -- makeable`（判定関数）。
 

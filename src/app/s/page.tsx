@@ -7,6 +7,7 @@ import { materials } from "@/content/materials";
 import type { Cocktail } from "@/content/schema";
 import { makeable } from "@/lib/makeable";
 import { supabase } from "@/lib/supabase";
+import { imageUrl } from "@/lib/imageStore";
 import { CocktailList } from "@/components/CocktailList";
 import { CocktailDetail } from "@/components/CocktailDetail";
 
@@ -54,6 +55,13 @@ function SharedList() {
 
   const close = useCallback(() => setSelected(null), []);
 
+  // 来客は Storage の中身を列挙できないので、画像の有無を問い合わせずに URL だけ組み立てる。
+  // 登録されていないカクテルの URL は 404 になり、CocktailImage がその枠を出さない。
+  const imageUrlOf = useCallback(
+    (cocktailId: string) => (u && !invalid ? imageUrl(supabase, u, cocktailId) : null),
+    [u, invalid],
+  );
+
   if (invalid) {
     return (
       <p role="alert" className="rounded-md border border-red-300 p-3 text-sm text-red-700 dark:text-red-400">
@@ -80,9 +88,21 @@ function SharedList() {
         <h2 id="cocktails-heading" className="mb-3 text-lg font-medium">
           作れるカクテル
         </h2>
-        <CocktailList cocktails={list} onSelect={setSelected} emptyMessage="今は作れるカクテルがありません。" />
+        <CocktailList
+          cocktails={list}
+          onSelect={setSelected}
+          emptyMessage="今は作れるカクテルがありません。"
+          imageUrlOf={imageUrlOf}
+        />
       </section>
-      {selected ? <CocktailDetail cocktail={selected} materials={materials} onClose={close} /> : null}
+      {selected ? (
+        <CocktailDetail
+          cocktail={selected}
+          materials={materials}
+          onClose={close}
+          imageUrl={imageUrlOf(selected.id)}
+        />
+      ) : null}
     </>
   );
 }
