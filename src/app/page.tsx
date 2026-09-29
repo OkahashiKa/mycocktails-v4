@@ -11,6 +11,7 @@ import { makeable } from "@/lib/makeable";
 import { supabase } from "@/lib/supabase";
 import { addOwned, countOrphans, loadOwned, removeOwned } from "@/lib/ownedStore";
 import { imageUrl, loadImagedIds, uploadImage } from "@/lib/imageStore";
+import { loadNotes, saveNotes, type Notes } from "@/lib/noteStore";
 import { MaterialChips } from "@/components/MaterialChips";
 import { CocktailList } from "@/components/CocktailList";
 import { CocktailDetail } from "@/components/CocktailDetail";
@@ -31,6 +32,10 @@ export default function Home() {
   const [imageVersion, setImageVersion] = useState<Record<string, number>>({});
   const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState<string | null>(null);
+  // カクテルごとの備考（来客にも出す）。Storage の notes.json から読む。
+  const [notes, setNotes] = useState<Notes>({});
+  const [savingNote, setSavingNote] = useState(false);
+  const [noteError, setNoteError] = useState<string | null>(null);
   // 共有 URL のコピー結果。copied = クリップボードに入った。fallback = API が使えず URL をそのまま出す。
   const [share, setShare] = useState<{ kind: "copied" } | { kind: "fallback"; url: string } | null>(null);
 
@@ -68,6 +73,15 @@ export default function Home() {
       } catch (e) {
         if (cancelled) return;
         setImageError(e instanceof Error ? e.message : String(e));
+      }
+      // 備考も別に読む。ここが落ちても画面は出す（備考が空に見えるだけ）。
+      try {
+        const fromStorage = await loadNotes(supabase, session.user.id);
+        if (cancelled) return;
+        setNotes(fromStorage);
+      } catch (e) {
+        if (cancelled) return;
+        setNoteError(e instanceof Error ? e.message : String(e));
       }
       if (cancelled) return;
       setLoaded(true);
@@ -127,6 +141,24 @@ export default function Home() {
     }
   };
 
+  // 備考も楽観的更新にしない。ファイル 1 つに全カクテル分を書くので、保存できた版だけを画面に持つ。
+  const saveNote = async (cocktailId: string, text: string) => {
+    if (!userId) return;
+    setNoteError(null);
+    setSavingNote(true);
+    const next: Record<string, string> = { ...notes };
+    if (text) next[cocktailId] = text;
+    else delete next[cocktailId];
+    try {
+      await saveNotes(supabase, userId, next);
+      setNotes(next);
+    } catch (e) {
+      setNoteError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setSavingNote(false);
+    }
+  };
+
   const logout = async () => {
     await supabase.auth.signOut();
     router.replace("/login");
@@ -144,7 +176,11 @@ export default function Home() {
     }
   };
 
-  const close = useCallback(() => setSelected(null), []);
+  const close = useCallback(() => {
+    setSelected(null);
+    setNoteError(null);
+  }, []);
+  const noteOf = useCallback((cocktailId: string) => notes[cocktailId] ?? "", [notes]);
 
   // 本人の画面は登録済みの ID が分かるので、画像があるカクテルにだけ URL を渡す。
   const imageUrlOf = useCallback(
@@ -199,7 +235,7 @@ export default function Home() {
         <h2 id="cocktails-heading" className="mb-3 text-lg font-medium">
           作れるカクテル
         </h2>
-        <CocktailList cocktails={list} onSelect={setSelected} imageUrlOf={imageUrlOf} />
+        <CocktailList cocktails={list} onSelect={setSelected} imageUrlOf={imageUrlOf} noteOf={noteOf} />
       </section>
 
       <section aria-labelledby="share-heading" className="flex flex-col gap-2">
@@ -240,6 +276,11 @@ export default function Home() {
           onPickImage={(file) => void pickImage(selected.id, file)}
           uploading={uploading}
           imageError={imageError}
+          note={noteOf(selected.id)}
+          canEditNote
+          onSaveNote={(text) => void saveNote(selected.id, text)}
+          savingNote={savingNote}
+          noteError={noteError}
         />
       ) : null}
     </main>

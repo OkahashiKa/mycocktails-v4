@@ -8,6 +8,7 @@ import type { Cocktail } from "@/content/schema";
 import { makeable } from "@/lib/makeable";
 import { supabase } from "@/lib/supabase";
 import { imageUrl } from "@/lib/imageStore";
+import { loadNotes, type Notes } from "@/lib/noteStore";
 import { CocktailList } from "@/components/CocktailList";
 import { CocktailDetail } from "@/components/CocktailDetail";
 
@@ -25,6 +26,8 @@ function SharedList() {
   const invalid = !u || !UUID_RE.test(u);
   const [state, setState] = useState<FetchState>({ kind: "loading" });
   const [selected, setSelected] = useState<Cocktail | null>(null);
+  // 持ち主が書いた備考。読めなかったときは空のまま（一覧は出す）。
+  const [notes, setNotes] = useState<Notes>({});
 
   useEffect(() => {
     if (invalid || !u) return;
@@ -52,6 +55,22 @@ function SharedList() {
       cancelled = true;
     };
   }, [u, invalid]);
+
+  // 備考は材料とは別に読む。失敗しても一覧の取得失敗にはしない（備考が出ないだけ）。
+  useEffect(() => {
+    if (invalid || !u) return;
+    let cancelled = false;
+    loadNotes(supabase, u)
+      .then((fromStorage) => {
+        if (!cancelled) setNotes(fromStorage);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [u, invalid]);
+
+  const noteOf = useCallback((cocktailId: string) => notes[cocktailId] ?? "", [notes]);
 
   const close = useCallback(() => setSelected(null), []);
 
@@ -93,6 +112,7 @@ function SharedList() {
           onSelect={setSelected}
           emptyMessage="今は作れるカクテルがありません。"
           imageUrlOf={imageUrlOf}
+          noteOf={noteOf}
         />
       </section>
       {selected ? (
@@ -101,6 +121,7 @@ function SharedList() {
           materials={materials}
           onClose={close}
           imageUrl={imageUrlOf(selected.id)}
+          note={noteOf(selected.id)}
         />
       ) : null}
     </>

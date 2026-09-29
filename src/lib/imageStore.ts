@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { NOTES_FILE } from "@/lib/noteStore";
 
 // カクテル画像の保存先（Supabase Storage の公開バケット）。手持ち材料の ownedStore と同じ作法で、
 // どの関数も失敗時は Error を投げる。message は Supabase の error.message そのまま（画面に出す）。
@@ -56,5 +57,6 @@ export async function loadImagedIds(supabase: SupabaseClient, userId: string): P
   const { data, error } = await supabase.storage.from(BUCKET).list(userId, { limit: 1000 });
   if (error) throw new Error(error.message);
   const names = (data ?? []).map((file: { name: string }) => file.name);
-  return new Set(names.filter((name) => name !== PLACEHOLDER));
+  // 同じフォルダに備考のファイルも置くので、それも除く。
+  return new Set(names.filter((name) => name !== PLACEHOLDER && name !== NOTES_FILE));
 }

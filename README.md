@@ -40,6 +40,7 @@
 - カクテル画像は Storage の公開バケット `cocktail-images` 1 つ（`supabase/migrations/` の SQL）。パスは `<user_id>/<cocktail_id>` で、先頭のフォルダ名が持ち主のユーザー ID になる。`storage.objects` に「本人のフォルダだけ」を対象にした select / insert / update / delete のポリシーを 4 本置く
 - 画像の読み取りは公開バケットなので、URL を知っていれば誰でも開ける（来客がログインせずに画像を見るため）。`anon` には select ポリシーを与えないので、バケットの中身は列挙できない。来客の画面は画像の有無を問い合わせず、読み込みに失敗したカードから画像の枠を消す
 - 画像を 1.0 に含めるのは 2026-09-16 の判断（それまでは「1.1 に送る」だった）。**増やしたのは公開バケット 1 つだけで、テーブルも RPC も増やしていない**
+- カクテルの備考（揃えている銘柄など、来客にも見せる短いテキスト）は、同じバケットに `<user_id>/notes.json`（`{ カクテル ID: 備考 }`）として 1 ファイルで置く。権限は画像のポリシー 4 本がそのまま効き、変えたのは許可 MIME タイプに `application/json` を足したことだけ。来客の画面はこのファイルを 1 回取得し、無ければ（404）備考を出さない。2026-09-29 の判断で、**テーブルも RPC も増やしていない**
 - スキーマの変更は migration 経由のみ（`npx supabase migration new <name>` → SQL を書く → `npx supabase db push`）。ダッシュボードの SQL Editor で恒久変更をしない
 - ログインはメールのマジックリンク（`signInWithOtp` に `emailRedirectTo` を渡す。戻り先はハードコードせず、開いている origin の `/`）。リンクを押すと `/#access_token=...` に着地し、`detectSessionInUrl: true` のクライアントがそこからセッションを張る
 - 6 桁コード入力（`verifyOtp`）は使わない。コードを出すには認証メールのテンプレートに `{{ .Token }}` を入れる必要があるが（https://supabase.com/docs/guides/auth/auth-email-templates ）、2026-06-03 以降に作られた無料プランのプロジェクトは Supabase 組み込みのメール送信を使う限りテンプレートを編集できない（https://supabase.com/changelog/46599-changes-to-email-template-customisation-on-free-tier ）。このプロジェクトは 2026-09-07 作成で対象に当たり、編集できない既定テンプレートが出すのはサインイン用のリンクだけ
