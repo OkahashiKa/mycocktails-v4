@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Cocktail, Material } from "@/content/schema";
 import { alcoholLevelLabel, difficultyLabel } from "@/components/labels";
 import { CocktailImage } from "@/components/CocktailImage";
+import { NOTE_MAX_LENGTH } from "@/lib/noteStore";
 
 type Props = {
   cocktail: Cocktail;
@@ -21,6 +22,16 @@ type Props = {
   uploading?: boolean;
   /** 保存に失敗したときの文言。 */
   imageError?: string | null;
+  /** 備考（揃えている銘柄など）。来客にも出す。空なら何も出さない。 */
+  note?: string;
+  /** 備考を書き換えられるか。ログイン中の本人の画面だけ true。 */
+  canEditNote?: boolean;
+  /** 備考の保存ボタンで呼ぶ。 */
+  onSaveNote?: (text: string) => void;
+  /** 備考の保存中はボタンを押せなくする。 */
+  savingNote?: boolean;
+  /** 備考の保存に失敗したときの文言。 */
+  noteError?: string | null;
 };
 
 /** カクテル詳細のモーダル。Tailwind の固定配置で自作。Escape と背景タップで閉じる。 */
@@ -34,7 +45,21 @@ export function CocktailDetail({
   onPickImage,
   uploading = false,
   imageError = null,
+  note = "",
+  canEditNote = false,
+  onSaveNote,
+  savingNote = false,
+  noteError = null,
 }: Props) {
+  // 入力中の備考。保存済みの値が変わったら（保存が終わったら）入力欄もそれに合わせる。
+  const [draft, setDraft] = useState(note);
+  const [savedNote, setSavedNote] = useState(note);
+  if (savedNote !== note) {
+    setSavedNote(note);
+    setDraft(note);
+  }
+  const dirty = draft.trim() !== note.trim();
+
   // ファイル選択は input[type=file] を隠して持ち、ボタンから開く（見た目を他のボタンと揃えるため）。
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -117,6 +142,42 @@ export function CocktailDetail({
         ) : null}
 
         <p className="mb-4 text-sm leading-relaxed">{cocktail.description}</p>
+
+        {canEditNote ? (
+          <div className="mb-4 flex flex-col gap-2">
+            <label htmlFor={`${titleId}-note`} className="text-sm font-medium text-neutral-500">
+              備考（来客にも表示）
+            </label>
+            <textarea
+              id={`${titleId}-note`}
+              value={draft}
+              maxLength={NOTE_MAX_LENGTH}
+              rows={3}
+              placeholder="例: 知多ハイボール、白州ハイボール"
+              onChange={(e) => setDraft(e.target.value)}
+              className="w-full rounded-md border border-neutral-300 bg-background p-2 text-base dark:border-neutral-600"
+            />
+            <button
+              type="button"
+              disabled={savingNote || !dirty}
+              onClick={() => onSaveNote?.(draft.trim())}
+              className="min-h-11 self-start rounded-md border border-neutral-300 px-4 py-2 text-sm disabled:opacity-50 dark:border-neutral-600"
+            >
+              {savingNote ? "保存中…" : "備考を保存する"}
+            </button>
+            {noteError ? (
+              <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+                {noteError}
+              </p>
+            ) : null}
+          </div>
+        ) : note ? (
+          <div className="mb-4 rounded-lg bg-neutral-100 p-3 dark:bg-neutral-800">
+            <h3 className="mb-1 text-sm font-medium text-neutral-500">備考</h3>
+            {/* 改行をそのまま出す。 */}
+            <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">{note}</p>
+          </div>
+        ) : null}
 
         <dl className="mb-4 flex gap-6 text-sm">
           <div>

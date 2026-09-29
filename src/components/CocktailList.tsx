@@ -12,10 +12,12 @@ type Props = {
    * 省略すると画像を出さない。
    */
   imageUrlOf?: (cocktailId: string) => string | null;
+  /** カクテル ID から備考を引く。空文字なら出さない。省略すると備考を出さない。 */
+  noteOf?: (cocktailId: string) => string;
 };
 
 /** 作れるカクテルの一覧と件数。0 件のときも「0 件」を出す。 */
-export function CocktailList({ cocktails, onSelect, emptyMessage, imageUrlOf }: Props) {
+export function CocktailList({ cocktails, onSelect, emptyMessage, imageUrlOf, noteOf }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-sm text-neutral-500" aria-live="polite">
@@ -44,6 +46,10 @@ export function CocktailList({ cocktails, onSelect, emptyMessage, imageUrlOf }: 
                   <span className="min-w-0 break-words">
                     <span className="block font-medium">{c.name}</span>
                     {c.nameEn ? <span className="block text-xs text-neutral-500">{c.nameEn}</span> : null}
+                    {/* 備考はカードでは 2 行まで。全文は詳細で出す。 */}
+                    {noteOf?.(c.id) ? (
+                      <span className="mt-1 line-clamp-2 block text-xs">{noteOf(c.id)}</span>
+                    ) : null}
                   </span>
                   <span className="shrink-0 text-xs text-neutral-500">
                     {difficultyLabel[c.difficulty]} / {alcoholLevelLabel[c.alcoholLevel]}
